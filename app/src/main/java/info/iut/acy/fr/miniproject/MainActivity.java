@@ -2,8 +2,6 @@ package info.iut.acy.fr.miniproject;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -22,7 +20,7 @@ public class MainActivity extends Activity {
 
         //remplis la arraylist avec la méthode fillHashMap
         ArrayList<HashMap<String, String>> appItemList = new ArrayList<HashMap<String, String>>();
-        appItemList.add(fillHashMap("Mes entreprises", String.valueOf((R.drawable.entreprise))));
+        appItemList.add(fillHashMap("Mes entreprises", String.valueOf((R.drawable.company))));
 
         // Création d'un SimpleAdapter qui met en correspondance les items présents dans la list avec ceux de la vue
         SimpleAdapter itemsAdapter = new SimpleAdapter(this.getBaseContext(), appItemList, R.layout.main_menu_item,
