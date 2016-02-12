@@ -1,13 +1,16 @@
 package info.iut.acy.fr.miniproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 
 public class CompanyActivity extends Activity implements OnClickListener{
@@ -39,8 +42,10 @@ public class CompanyActivity extends Activity implements OnClickListener{
 //                TraineeshipDB.insertCompany("test","test","test","test","test","test","test","test","test","test");
 //                break;
             case R.id.btnAdd:
-                // TODO Lancer le formulaire d'ajout d'une entreprise
-                populate();
+                Intent intentAddCompany = new Intent(getBaseContext(),AddCompanyActivity.class);
+                startActivity(intentAddCompany);
+                // avertis l'utilisateur par un toast si c'est le cas
+                // populate();
                 break;
         }
     }

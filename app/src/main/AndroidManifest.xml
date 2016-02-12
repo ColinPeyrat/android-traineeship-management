@@ -24,6 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="info.iut.acy.fr.miniproject.MainActivity" />
         </activity>
+        <activity
+            android:name=".AddCompanyActivity"
+            android:label="@string/title_activity_add_company"
+            android:parentActivityName=".CompanyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="info.iut.acy.fr.miniproject.CompanyActivity" />
+        </activity>
     </application>
 
 </manifest>
