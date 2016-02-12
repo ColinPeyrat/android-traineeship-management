@@ -9,8 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageMenu"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerCrop"/>
 
     <LinearLayout
         android:orientation="vertical"

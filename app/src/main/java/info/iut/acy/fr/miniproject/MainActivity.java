@@ -21,8 +21,8 @@ public class MainActivity extends Activity {
         //remplis la arraylist avec la méthode fillHashMap
         ArrayList<HashMap<String, String>> menuItemList = new ArrayList<HashMap<String, String>>();
         menuItemList.add(fillHashMap("Mes offres de stage", String.valueOf((R.drawable.company))));
-        menuItemList.add(fillHashMap("Mes contacts",String.valueOf(R.drawable.company)));
-        menuItemList.add(fillHashMap("Mes information",String.valueOf(R.drawable.company)));
+        menuItemList.add(fillHashMap("Mes contacts",String.valueOf(R.drawable.contact)));
+        menuItemList.add(fillHashMap("Mes information",String.valueOf(R.drawable.people)));
 
         // Création d'un SimpleAdapter qui met en correspondance les items présents dans la list avec ceux de la vue
         SimpleAdapter itemsAdapter = new SimpleAdapter(this.getBaseContext(), menuItemList, R.layout.main_menu_item,
