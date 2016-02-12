@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageMenu"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerInside"
+        android:contentDescription="@string/image_view" />
 
     <LinearLayout
         android:orientation="vertical"
