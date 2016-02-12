@@ -2,4 +2,5 @@
     <string name="app_name">Gestion de stage</string>
     <string name="action_settings">Settings</string>
     <string name="hello">Ceci est une application de génie</string>
+    <string name="titre_menu">titre_menu</string>
 </resources>
