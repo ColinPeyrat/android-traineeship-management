@@ -6,11 +6,11 @@
     android:id="@+id/relativeLayout">
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageMenu"
-        android:layout_alignParentBottom="true"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"/>
 
     <LinearLayout
         android:orientation="vertical"

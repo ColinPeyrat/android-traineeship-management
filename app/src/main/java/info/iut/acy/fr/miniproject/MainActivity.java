@@ -19,11 +19,13 @@ public class MainActivity extends Activity {
         ListView MainMenu = (ListView)findViewById(R.id.MainMenuListView);
 
         //remplis la arraylist avec la méthode fillHashMap
-        ArrayList<HashMap<String, String>> appItemList = new ArrayList<HashMap<String, String>>();
-        appItemList.add(fillHashMap("Mes entreprises", String.valueOf((R.drawable.company))));
+        ArrayList<HashMap<String, String>> menuItemList = new ArrayList<HashMap<String, String>>();
+        menuItemList.add(fillHashMap("Mes offres de stage", String.valueOf((R.drawable.company))));
+        menuItemList.add(fillHashMap("Mes contacts",String.valueOf(R.drawable.company)));
+        menuItemList.add(fillHashMap("Mes information",String.valueOf(R.drawable.company)));
 
         // Création d'un SimpleAdapter qui met en correspondance les items présents dans la list avec ceux de la vue
-        SimpleAdapter itemsAdapter = new SimpleAdapter(this.getBaseContext(), appItemList, R.layout.main_menu_item,
+        SimpleAdapter itemsAdapter = new SimpleAdapter(this.getBaseContext(), menuItemList, R.layout.main_menu_item,
                 new String[]{"MenuTitle", "MenuIcon"}, new int[]{R.id.titre_menu, R.id.imageMenu});
 
         MainMenu.setAdapter(itemsAdapter);
