@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello">Ceci est une application de génie</string>
     <string name="titre_menu">titre_menu</string>
+    <string name="image_view">des gens</string>
+    <string name="title_activity_company">CompanyActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

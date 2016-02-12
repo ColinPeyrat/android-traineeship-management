@@ -16,6 +16,7 @@ public class TraineeshipDBHelper extends SQLiteOpenHelper {
     public static final String KEY_POSTAL = "postal";
     public static final String KEY_TOWN = "town";
     public static final String KEY_COUNTRY = "country";
+    public static final String KEY_SERVICE = "service";
     public static final String KEY_PHONE = "phone";
     public static final String KEY_MAIL = "mail";
     public static final String KEY_WEBSITE = "website";
@@ -37,6 +38,7 @@ public class TraineeshipDBHelper extends SQLiteOpenHelper {
             KEY_POSTAL + " text not null, " +
             KEY_TOWN + " text not null, " +
             KEY_COUNTRY + " text not null, " +
+            KEY_SERVICE + " text, " +
             KEY_PHONE + " text not null, " +
             KEY_MAIL + " text not null, " +
             KEY_WEBSITE + " text, " +

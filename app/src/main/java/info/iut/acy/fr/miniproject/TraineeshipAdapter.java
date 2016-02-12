@@ -34,7 +34,7 @@ public class TraineeshipAdapter {
     }
 
     // insert a company
-    public long insertCompany(String name, String address, String postal, String town, String country, String phone, String mail, String website, String size){
+    public long insertCompany(String name, String address, String postal, String town, String country,String service, String phone, String mail, String website, String size){
         Log.i("insertCompany", "appele");
         ContentValues newValue  = new ContentValues();
         newValue.put(TraineeshipDBHelper.KEY_NAME,name);
@@ -42,6 +42,7 @@ public class TraineeshipAdapter {
         newValue.put(TraineeshipDBHelper.KEY_POSTAL,postal);
         newValue.put(TraineeshipDBHelper.KEY_TOWN,town);
         newValue.put(TraineeshipDBHelper.KEY_COUNTRY,country);
+        newValue.put(TraineeshipDBHelper.KEY_SERVICE,service);
         newValue.put(TraineeshipDBHelper.KEY_PHONE,phone);
         newValue.put(TraineeshipDBHelper.KEY_MAIL,mail);
         newValue.put(TraineeshipDBHelper.KEY_WEBSITE,website);
@@ -53,7 +54,7 @@ public class TraineeshipAdapter {
     public Cursor getAllCompany(){
         return shotsDB.query(dbHelper.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
         TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
-        TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE}, null, null, null, null, null);
+        TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE}, null, null, null, null, null);
     }
 //
 //    // insertion
