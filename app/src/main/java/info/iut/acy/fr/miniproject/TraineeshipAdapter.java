@@ -32,6 +32,29 @@ public class TraineeshipAdapter {
         Log.i("TraineeshipDBHelper", "close: demande de fermeture de la base");
         dbHelper.close();
     }
+
+    // insert a company
+    public long insertCompany(String name, String address, String postal, String town, String country, String phone, String mail, String website, String size){
+        Log.i("insertCompany", "appele");
+        ContentValues newValue  = new ContentValues();
+        newValue.put(TraineeshipDBHelper.KEY_NAME,name);
+        newValue.put(TraineeshipDBHelper.KEY_ADRESS,address);
+        newValue.put(TraineeshipDBHelper.KEY_POSTAL,postal);
+        newValue.put(TraineeshipDBHelper.KEY_TOWN,town);
+        newValue.put(TraineeshipDBHelper.KEY_COUNTRY,country);
+        newValue.put(TraineeshipDBHelper.KEY_PHONE,phone);
+        newValue.put(TraineeshipDBHelper.KEY_MAIL,mail);
+        newValue.put(TraineeshipDBHelper.KEY_WEBSITE,website);
+        newValue.put(TraineeshipDBHelper.KEY_SIZE,size);
+        return shotsDB.insert(TraineeshipDBHelper.NOM_TABLE_COMPANY, null, newValue);
+    }
+
+    // select * (renvoie tous les éléments de la table)
+    public Cursor getAllCompany(){
+        return shotsDB.query(dbHelper.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
+        TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
+        TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE}, null, null, null, null, null);
+    }
 //
 //    // insertion
 //    public long insertShot(String chemin, String typeShot, String commentaire){
