@@ -44,13 +44,11 @@ public class MainActivity extends Activity{
 
                     // Item "Mes offres de stages" clicked
                     case 0:
-                        Log.i("menu","Mes offres de stages");
+                        Log.i("menu","Mes offres de stage");
                         Intent intentCompany = new Intent(getBaseContext(),CompanyActivity.class);
-//                            Intent intentCalc = new Intent(getBaseContext(), Calculette.class);
                         startActivity(intentCompany);
-//                            Log.e("exception", "activité pas trouvé");
-//                            // avertis l'utilisateur par un toast si c'est le cas
-                            Toast.makeText(getApplicationContext(), "Lancements de vos offres de stages", Toast.LENGTH_SHORT).show();
+                        // avertis l'utilisateur par un toast si c'est le cas
+                        Toast.makeText(getApplicationContext(), "Lancements de vos offres de stage", Toast.LENGTH_SHORT).show();
                         break;
 
                     // Item "Mes contacts" clicked
@@ -60,7 +58,7 @@ public class MainActivity extends Activity{
 
                     // Item "Mes informations" clicked
                     case 2:
-                        Log.i("menu","Mes contacts");
+                        Log.i("menu","Mes informations");
                         break;
                 }
 

@@ -7,8 +7,18 @@
     tools:context="info.iut.acy.fr.miniproject.CompanyActivity"
     android:id="@+id/test">
 
-    <TextView android:text="Bienvenue dans la gestion des offres de stage" android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/test2" />
+        android:id="@+id/ListViewCompany"
+        android:layout_below="@+id/btnAdd" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter"
+        android:id="@+id/btnAdd"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/ListViewCompany" />
 
 </RelativeLayout>
