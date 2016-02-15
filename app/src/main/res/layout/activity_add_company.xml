@@ -7,10 +7,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="info.iut.acy.fr.miniproject.Company.CompanyActivity"
     android:id="@+id/addCompany">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1"
+            >
+            <!-- everything you already have -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:orientation="vertical"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:weightSum="1">
 
         <EditText
             android:id="@+id/EditTextName"
@@ -26,35 +38,78 @@
             android:inputType="textPersonName"
             android:layout_width="fill_parent">
         </EditText>
-         <EditText
+
+        <EditText
             android:id="@+id/EditTextPostal"
             android:layout_height="wrap_content"
             android:hint="Code postal de l'entreprise"
-            android:inputType="textPersonName"
-            android:layout_width="fill_parent">
+            android:inputType="textPersonName|numberSigned"
+            android:layout_width="match_parent">
         </EditText>
-         <EditText
-            android:id="@+id/EditTextTown"
-            android:layout_height="wrap_content"
-            android:hint="Ville de l'entreprise"
-            android:inputType="textPersonName"
-            android:layout_width="fill_parent">
-        </EditText>
+
+        <EditText
+           android:id="@+id/EditTextTown"
+           android:layout_height="wrap_content"
+           android:hint="Ville de l'entreprise"
+           android:inputType="textPersonName"
+           android:layout_width="match_parent"
+            android:layout_gravity="left">
+       </EditText>
+
         <EditText
             android:id="@+id/EditTextCountry"
             android:layout_height="wrap_content"
             android:hint="Pays de l'entreprise"
             android:inputType="textPersonName"
-            android:layout_width="fill_parent">
+            android:layout_width="355dp">
         </EditText>
         <EditText
             android:id="@+id/EditTextPhone"
             android:layout_height="wrap_content"
             android:hint="Numéro de l'entreprise"
-            android:inputType="textPersonName"
+            android:inputType="phone|textPersonName"
+            android:layout_width="fill_parent">
+        </EditText>
+        <EditText
+            android:id="@+id/EditTextMail"
+            android:layout_height="wrap_content"
+            android:hint="Email de l'entreprise"
+            android:inputType="textEmailAddress|textPersonName"
+            android:layout_width="fill_parent">
+        </EditText>
+        <EditText
+            android:id="@+id/EditTextWebsite"
+            android:layout_height="wrap_content"
+            android:hint="Site de l'entreprise"
+            android:inputType="textUri|textPersonName"
+            android:layout_width="fill_parent">
+        </EditText>
+        <EditText
+            android:id="@+id/EditTextSize"
+            android:layout_height="wrap_content"
+            android:hint="Taille de l'entreprise"
+            android:inputType="textPersonName|numberSigned"
             android:layout_width="fill_parent">
         </EditText>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editText"
+            android:hint="Description de l'entreprise"
+            android:height="100dp" />
+        />
 
-    </LinearLayout>
-    </RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ajouter"
+            android:id="@+id/submitCompany"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+        </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>
