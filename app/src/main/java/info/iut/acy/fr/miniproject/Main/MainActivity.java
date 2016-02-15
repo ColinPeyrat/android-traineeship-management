@@ -1,4 +1,4 @@
-package info.iut.acy.fr.miniproject;
+package info.iut.acy.fr.miniproject.Main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import info.iut.acy.fr.miniproject.Company.CompanyActivity;
+import info.iut.acy.fr.miniproject.R;
 
 
 public class MainActivity extends Activity{

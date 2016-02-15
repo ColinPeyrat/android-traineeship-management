@@ -1,9 +1,11 @@
-package info.iut.acy.fr.miniproject;
+package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import info.iut.acy.fr.miniproject.R;
 
 
 public class AddCompanyActivity extends Activity {

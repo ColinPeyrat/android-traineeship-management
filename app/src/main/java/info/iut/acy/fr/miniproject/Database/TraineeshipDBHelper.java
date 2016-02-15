@@ -1,4 +1,4 @@
-package info.iut.acy.fr.miniproject;
+package info.iut.acy.fr.miniproject.Database;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;

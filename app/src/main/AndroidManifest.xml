@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".Main.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,20 +17,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CompanyActivity"
+            android:name=".Company.CompanyActivity"
             android:label="@string/title_activity_company"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".Main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="info.iut.acy.fr.miniproject.MainActivity" />
+                android:value=".Main.MainActivity" />
         </activity>
         <activity
-            android:name=".AddCompanyActivity"
+            android:name=".Company.AddCompanyActivity"
             android:label="@string/title_activity_add_company"
-            android:parentActivityName=".CompanyActivity" >
+            android:parentActivityName=".Company.CompanyActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="info.iut.acy.fr.miniproject.CompanyActivity" />
+                android:value=".Company.CompanyActivity" />
         </activity>
     </application>
 

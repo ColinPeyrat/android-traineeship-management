@@ -1,16 +1,18 @@
-package info.iut.acy.fr.miniproject;
+package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
+
+import info.iut.acy.fr.miniproject.R;
+import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
+import info.iut.acy.fr.miniproject.Database.TraineeshipDBHelper;
 
 
 public class CompanyActivity extends Activity implements OnClickListener{
