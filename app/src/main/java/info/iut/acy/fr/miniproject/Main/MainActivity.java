@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import info.iut.acy.fr.miniproject.Company.CompanyActivity;
+import info.iut.acy.fr.miniproject.Information.InformationActivity;
 import info.iut.acy.fr.miniproject.R;
 
 
@@ -62,6 +63,10 @@ public class MainActivity extends Activity{
                     // Item "Mes informations" clicked
                     case 2:
                         Log.i("menu","Mes informations");
+                        Intent intentInformation = new Intent(getBaseContext(), InformationActivity.class);
+                        startActivity(intentInformation);
+                        // avertis l'utilisateur par un toast si c'est le cas
+                        Toast.makeText(getApplicationContext(), "Accès à vos informations", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

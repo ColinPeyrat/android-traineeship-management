@@ -18,6 +18,7 @@ public class TraineeshipAdapter {
     public TraineeshipAdapter(Context context) { // constructeur
         dbHelper = new TraineeshipDBHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     public void open() throws SQLiteException {
         try{
             shotsDB=dbHelper.getWritableDatabase();
@@ -28,6 +29,7 @@ public class TraineeshipAdapter {
             Log.i("TraineeshipDBHelper", "Base ouverte en lecture " + shotsDB);
         }
     }
+
     public void close(){
         Log.i("TraineeshipDBHelper", "close: demande de fermeture de la base");
         dbHelper.close();
