@@ -5,6 +5,7 @@
     <string name="titre_menu">titre_menu</string>
     <string name="image_view">des gens</string>
     <string name="title_activity_company">Mes offres de stages</string>
+    <string name="title_activity_information">Mes informations</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_add_company">Ajouter une offre de stage</string>

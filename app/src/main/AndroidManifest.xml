@@ -32,6 +32,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Company.CompanyActivity" />
         </activity>
+        <activity
+            android:name=".Information.InformationActivity"
+            android:label="@string/title_activity_information"
+            android:parentActivityName=".Main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
