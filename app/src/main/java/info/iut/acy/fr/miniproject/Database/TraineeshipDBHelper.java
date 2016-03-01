@@ -21,6 +21,7 @@ public class TraineeshipDBHelper extends SQLiteOpenHelper {
     public static final String KEY_MAIL = "mail";
     public static final String KEY_WEBSITE = "website";
     public static final String KEY_SIZE= "size";
+    public static final String KEY_DESCRIPTION= "description";
 
     public static final String NOM_TABLE_CONTACT= "contact";
     public static final String KEY_IDCONTACT = "_id";
@@ -42,6 +43,7 @@ public class TraineeshipDBHelper extends SQLiteOpenHelper {
             KEY_PHONE + " text not null, " +
             KEY_MAIL + " text not null, " +
             KEY_WEBSITE + " text, " +
+            KEY_DESCRIPTION + " text, " +
             KEY_SIZE + " text );";
 
     private static final String DATABASE_CREATE_CONTACT = "create table " + NOM_TABLE_CONTACT +

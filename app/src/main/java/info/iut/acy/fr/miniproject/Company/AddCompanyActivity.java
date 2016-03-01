@@ -24,6 +24,7 @@ public class AddCompanyActivity extends Activity {
     private EditText companyPostalEditText;
     private EditText companyCityEditText;
     private EditText companyCountryEditText;
+    private EditText companyServiceEditText;
     private EditText companyPhoneEditText;
     private EditText companyMailEditText;
     private EditText companyWebSiteEditText;
@@ -52,16 +53,24 @@ public class AddCompanyActivity extends Activity {
                 companyPostalEditText = (EditText)findViewById(R.id.EditTextPostal);
                 companyCityEditText = (EditText)findViewById(R.id.EditTextCity);
                 companyCountryEditText = (EditText)findViewById(R.id.EditTextCountry);
+                companyServiceEditText = (EditText)findViewById(R.id.EditTextService);
                 companyMailEditText = (EditText)findViewById(R.id.EditTextMail);
                 companyPhoneEditText = (EditText)findViewById(R.id.EditTextPhone);
+                companyWebSiteEditText = (EditText)findViewById(R.id.EditTextWebsite);
+                companySizeEditText = (EditText)findViewById(R.id.EditTextSize);
+                companyDescriptionEditText = (EditText)findViewById(R.id.EditTextDescription);
 
                 String companyName = companyNameEditText.getText().toString();
                 String companyAdress = companyAdressEditText.getText().toString();
                 String companyPostal = companyPostalEditText.getText().toString();
                 String companyCity = companyCityEditText.getText().toString();
                 String companyCountry = companyCountryEditText.getText().toString();
+                String companyService = companyServiceEditText.getText().toString();
                 String companyPhone = companyPhoneEditText.getText().toString();
                 String companyMail = companyMailEditText.getText().toString();
+                String companyWebsite = companyWebSiteEditText.getText().toString();
+                String companySize = companySizeEditText.getText().toString();
+                String companyDescription = companyDescriptionEditText.getText().toString();
 
                 if( companyName.trim().equals("")) {
                     companyNameEditText.setError("Le nom de l'entreprise est requis");
@@ -97,11 +106,19 @@ public class AddCompanyActivity extends Activity {
                     //remove all error
                     companyPhoneEditText.setError(null);
                     companyMailEditText.setError(null);
+
+                    TraineeshipDB.insertCompany(companyName,companyAdress,companyPostal,companyCity,companyCountry,companyService,companyPhone,companyMail,companyWebsite,companySize,companyDescription);
                 }
 
 
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TraineeshipDB.open();
+
     }
     // validating email id
     private boolean isValidEmail(String email) {

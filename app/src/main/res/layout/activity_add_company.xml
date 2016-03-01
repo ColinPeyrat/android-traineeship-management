@@ -63,6 +63,13 @@
             android:inputType="textPersonName"
             android:layout_width="match_parent">
         </EditText>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/EditTextService"
+            android:layout_gravity="center_horizontal" />
+
         <EditText
             android:id="@+id/EditTextPhone"
             android:layout_height="wrap_content"
@@ -95,7 +102,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/editText"
+            android:id="@+id/EditTextDescription"
             android:hint="Description de l'entreprise"
             android:height="100dp" />
         />

@@ -36,7 +36,7 @@ public class TraineeshipAdapter {
     }
 
     // insert a company
-    public long insertCompany(String name, String address, String postal, String town, String country,String service, String phone, String mail, String website, String size){
+    public long insertCompany(String name, String address, String postal, String town, String country,String service, String phone, String mail, String website, String size,String description){
         Log.i("insertCompany", "appele");
         ContentValues newValue  = new ContentValues();
         newValue.put(TraineeshipDBHelper.KEY_NAME,name);
@@ -49,6 +49,7 @@ public class TraineeshipAdapter {
         newValue.put(TraineeshipDBHelper.KEY_MAIL,mail);
         newValue.put(TraineeshipDBHelper.KEY_WEBSITE,website);
         newValue.put(TraineeshipDBHelper.KEY_SIZE,size);
+        newValue.put(TraineeshipDBHelper.KEY_DESCRIPTION,description);
         return shotsDB.insert(TraineeshipDBHelper.NOM_TABLE_COMPANY, null, newValue);
     }
 
