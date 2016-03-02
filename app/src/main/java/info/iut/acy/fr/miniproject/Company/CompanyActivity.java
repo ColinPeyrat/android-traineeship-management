@@ -34,6 +34,7 @@ public class CompanyActivity extends Activity implements OnClickListener{
     protected void onResume() {
         super.onResume();
         TraineeshipDB.open();
+        populate();
 
     }
 
