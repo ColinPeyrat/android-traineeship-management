@@ -15,11 +15,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import info.iut.acy.fr.miniproject.Company.CompanyActivity;
+import info.iut.acy.fr.miniproject.Database.DBAdapter;
 import info.iut.acy.fr.miniproject.Information.InformationActivity;
 import info.iut.acy.fr.miniproject.R;
 
 
 public class MainActivity extends Activity{
+
+    DBAdapter db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
 
         ListView MainMenu = (ListView)findViewById(R.id.MainMenuListView);
+
+        db = new DBAdapter(getApplicationContext());
 
         //remplis la arraylist avec la méthode fillHashMap
         ArrayList<HashMap<String, String>> menuItemList = new ArrayList<HashMap<String, String>>();
@@ -73,6 +78,12 @@ public class MainActivity extends Activity{
 
                 }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db.open();
     }
 
     // méthode privée permettant de remplir un HashMap

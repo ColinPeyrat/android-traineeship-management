@@ -5,36 +5,105 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class TraineeshipAdapter {
+import java.sql.SQLException;
 
-    // variables de définition de la base gérée
-    private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 1;
-    private SQLiteDatabase shotsDB; // reference vers une base de données
-    private TraineeshipDBHelper dbHelper; // référence vers le Helper de gestion de la base
+/**
+ * Created by peyratc on 02/03/2016.
+ */
+public class TraineeshipAdapter{
 
-    public TraineeshipAdapter(Context context) { // constructeur
-        dbHelper = new TraineeshipDBHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
+    // membres public permettant de dfinir les champs de la base
+    public static final String NOM_TABLE_COMPANY = "company";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_ADRESS = "adress";
+    public static final String KEY_POSTAL = "postal";
+    public static final String KEY_TOWN = "town";
+    public static final String KEY_COUNTRY = "country";
+    public static final String KEY_SERVICE = "service";
+    public static final String KEY_PHONE = "phone";
+    public static final String KEY_MAIL = "mail";
+    public static final String KEY_WEBSITE = "website";
+    public static final String KEY_SIZE= "size";
+    public static final String KEY_DESCRIPTION= "description";
 
-    public void open() throws SQLiteException {
-        try{
-            shotsDB=dbHelper.getWritableDatabase();
-            // LogCat message
-            Log.i("TraineeshipDBHelper", "Base ouverte en ecriture " + shotsDB);
-        }catch (SQLiteException e){
-            shotsDB=dbHelper.getReadableDatabase();
-            Log.i("TraineeshipDBHelper", "Base ouverte en lecture " + shotsDB);
+    public static final String NOM_TABLE_CONTACT= "contact";
+    public static final String KEY_IDCONTACT = "_id";
+    public static final String KEY_IDCOMPANY = "idcompany";
+    public static final String KEY_CONTACTMEANS = "contactmeans";
+    public static final String KEY_CONTACTDATE = "contactdate";
+
+    private DatabaseHelper mDbHelper;
+    private SQLiteDatabase mDb;
+
+    private final Context mCtx;
+
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+
+        DatabaseHelper(Context context) {
+            super(context, DBAdapter.DATABASE_NAME, null, DBAdapter.DATABASE_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         }
     }
 
-    public void close(){
-        Log.i("TraineeshipDBHelper", "close: demande de fermeture de la base");
-        dbHelper.close();
+    /**
+     * Constructor - takes the context to allow the database to be
+     * opened/created
+     *
+     * @param ctx
+     *            the Context within which to work
+     */
+    public TraineeshipAdapter(Context ctx) {
+        this.mCtx = ctx;
     }
 
+    /**
+     * Open the cars database. If it cannot be opened, try to create a new
+     * instance of the database. If it cannot be created, throw an exception to
+     * signal the failure
+     *
+     * @return this (self reference, allowing this to be chained in an
+     *         initialization call)
+     * @throws SQLException
+     *             if the database could be neither opened or created
+     */
+    public void open() throws SQLiteException{
+        this.mDbHelper = new DatabaseHelper(this.mCtx);
+        try{
+            this.mDb = this.mDbHelper.getWritableDatabase();
+            // LogCat message
+            Log.i("InformationAdapter2", "Base ouverte en ecriture : "+NOM_TABLE_COMPANY);
+        }catch (SQLiteException e){
+            this.mDb = this.mDbHelper.getReadableDatabase();
+            Log.i("InformationAdapter2", "Base ouverte en lecture "+NOM_TABLE_COMPANY);
+        }
+    }
+
+    /**
+     * close return type: void
+     */
+    public void close()
+    {
+
+        this.mDbHelper.close();
+    }
+
+    // select * (renvoie tous les éléments de la table)
+    public Cursor getAllCompany(){
+        return mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
+                TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
+                TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, null, null, null, null, null);
+    }
     // insert a company
     public long insertCompany(String name, String address, String postal, String town, String country,String service, String phone, String mail, String website, String size,String description){
         Log.i("insertCompany", "appele");
@@ -50,65 +119,24 @@ public class TraineeshipAdapter {
         newValue.put(TraineeshipDBHelper.KEY_WEBSITE,website);
         newValue.put(TraineeshipDBHelper.KEY_SIZE,size);
         newValue.put(TraineeshipDBHelper.KEY_DESCRIPTION,description);
-        return shotsDB.insert(TraineeshipDBHelper.NOM_TABLE_COMPANY, null, newValue);
+        return mDb.insert(TraineeshipDBHelper.NOM_TABLE_COMPANY, null, newValue);
     }
 
-    // select * (renvoie tous les éléments de la table)
-    public Cursor getAllCompany(){
-        return shotsDB.query(dbHelper.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
-        TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
-        TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, null, null, null, null, null);
-    }
-//
-//    // insertion
-//    public long insertShot(String chemin, String typeShot, String commentaire){
-//        Log.i("insertShot", "appelé");
-//        ContentValues newValue  = new ContentValues();
-//        newValue.put(dbHelper.KEY_PATH, chemin);
-//        newValue.put(dbHelper.KEY_TYPE, typeShot);
-//        newValue.put(dbHelper.KEY_COMMENT, commentaire);
-//        return shotsDB.insert(ShotsDBhelper.NOM_TABLE, null, newValue);
-//    }
-//    // modification
-//    public boolean updateShot(int ligneID, String chemin, String typeShot, String commentaire){
-//        Log.i("updateShot", "appelé");
-//        ContentValues newValue = new ContentValues();
-//        newValue.put(dbHelper.KEY_PATH, chemin);
-//        newValue.put(dbHelper.KEY_TYPE, typeShot);
-//        newValue.put(dbHelper.KEY_COMMENT, commentaire);
-//        return shotsDB.update(ShotsDBhelper.NOM_TABLE, newValue,
-//                ShotsDBhelper.KEY_ID + " = " + ligneID, null) > 0;
-//    }
-//
-//    // suppression
-//    public boolean removeShot(long ligneID){
-//        Log.i("removeLine", "appelé");
-//        return shotsDB.delete(ShotsDBhelper.NOM_TABLE, ShotsDBhelper.KEY_ID + " = " + ligneID, null)>0;
-//    }
-//
-//    // select * (renvoie tous les éléments de la table)
-//    public Cursor getAllData(){
-//        return shotsDB.query(dbHelper.NOM_TABLE, new String[]{ ShotsDBhelper.KEY_ID,
-//                ShotsDBhelper.KEY_PATH, ShotsDBhelper.KEY_TYPE,ShotsDBhelper.KEY_COMMENT}, null, null, null, null, dbHelper.KEY_ID+" DESC");
-//    }
-//
-//    // renvoie un seul éléments de la table identifié par son ID
-//    public Cursor getSingleShot(long ligneID){
-//        Cursor reponse = shotsDB.query(ShotsDBhelper .NOM_TABLE, new String[]{
-//                        ShotsDBhelper.KEY_ID, ShotsDBhelper.KEY_PATH, ShotsDBhelper.KEY_TYPE,
-//                        ShotsDBhelper.KEY_COMMENT}, ShotsDBhelper.KEY_ID + " = " + ligneID, null, null,
-//                null, null);
-//        return reponse;
-//    }
-//
-//    // renvoie tous les éléments de la table qui ont le type_media voulu.
-//    public Cursor getAllShotsOfAtype(String type_media){
-//        Cursor reponse = shotsDB.query(ShotsDBhelper .NOM_TABLE, new String[]{
-//                        ShotsDBhelper.KEY_ID, ShotsDBhelper.KEY_PATH, ShotsDBhelper.KEY_TYPE,
-//                        ShotsDBhelper.KEY_COMMENT}, ShotsDBhelper.KEY_TYPE + " = " + type_media, null, null,
-//                null, null);
-//        return reponse;
-//    }
-
+   /* *//**
+     * Create a new car. If the car is successfully created return the new
+     * rowId for that car, otherwise return a -1 to indicate failure.
+     *
+     * @param name
+     * @param model
+     * @param year
+     * @return rowId or -1 if failed
+     *//*
+    public long createCar(String name, String model, String year){
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(NAME, name);
+        initialValues.put(MODEL, model);
+        initialValues.put(YEAR, year);
+        return this.mDb.insert(DATABASE_TABLE, null, initialValues);
+    }*/
 
 }

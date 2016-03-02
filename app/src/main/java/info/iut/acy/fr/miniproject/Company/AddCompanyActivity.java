@@ -2,18 +2,16 @@ package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import info.iut.acy.fr.miniproject.Database.DBAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
+import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter2;
 import info.iut.acy.fr.miniproject.R;
 
 
@@ -46,7 +44,6 @@ public class AddCompanyActivity extends Activity {
         btnSubmint.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 companyNameEditText = (EditText)findViewById(R.id.EditTextName);
                 companyAdressEditText = (EditText)findViewById(R.id.EditTextAdresse);

@@ -10,8 +10,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import info.iut.acy.fr.miniproject.R;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
+import info.iut.acy.fr.miniproject.R;
+import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter2;
 import info.iut.acy.fr.miniproject.Database.TraineeshipDBHelper;
 
 

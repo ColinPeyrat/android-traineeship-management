@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import info.iut.acy.fr.miniproject.Database.InformationAdapter;
-import info.iut.acy.fr.miniproject.Database.InformationDBHelper;
+import info.iut.acy.fr.miniproject.Database.InformationAdapter2;
 import info.iut.acy.fr.miniproject.R;
 
 public class InformationActivity extends Activity implements View.OnClickListener {

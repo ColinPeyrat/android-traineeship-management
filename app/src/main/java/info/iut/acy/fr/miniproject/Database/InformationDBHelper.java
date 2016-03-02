@@ -23,7 +23,7 @@ public class InformationDBHelper extends SQLiteOpenHelper {
 
     public InformationDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        Log.i("InformationAdapter", "Helper construit");
+        Log.i("InformationAdapter2", "Helper construit");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class InformationDBHelper extends SQLiteOpenHelper {
         // creation de la table
         db.execSQL(DATABASE_CREATE_INFORMATION);
 
-        Log.i("InformationAdapter", "Database created with instruction : " +
+        Log.i("InformationAdapter2", "Database created with instruction : " +
                 DATABASE_CREATE_INFORMATION);
     }
 
@@ -39,7 +39,7 @@ public class InformationDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // destruction de la base et recreation
         db.execSQL("DROP TABLE IF EXISTS " + NOM_TABLE_INFORMATION);
-        Log.i("InformationAdapter", "Base mise a jour !!!");
+        Log.i("InformationAdapter2", "Base mise a jour !!!");
         onCreate(db);
     }
 }
