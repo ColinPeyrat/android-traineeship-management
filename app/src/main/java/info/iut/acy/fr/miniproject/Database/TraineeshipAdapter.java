@@ -30,12 +30,6 @@ public class TraineeshipAdapter{
     public static final String KEY_SIZE= "size";
     public static final String KEY_DESCRIPTION= "description";
 
-    public static final String NOM_TABLE_CONTACT= "contact";
-    public static final String KEY_IDCONTACT = "_id";
-    public static final String KEY_IDCOMPANY = "idcompany";
-    public static final String KEY_CONTACTMEANS = "contactmeans";
-    public static final String KEY_CONTACTDATE = "contactdate";
-
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
