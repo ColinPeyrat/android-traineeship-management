@@ -22,18 +22,24 @@ public class InformationActivity extends Activity implements View.OnClickListene
     EditText information_name;
     EditText information_firstname;
     EditText information_email;
+    EditText information_email_responsable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
 
-        Button btnSave = (Button)findViewById(R.id.btnSubmit);
-        btnSave.setOnClickListener(this);
+        Button btnSaveMyInformation = (Button)findViewById(R.id.btnSubmitMyInformation);
+        btnSaveMyInformation.setOnClickListener(this);
+
+        Button btnSaveResponsable = (Button)findViewById(R.id.btnSubmitResponsable);
+        btnSaveResponsable.setOnClickListener(this);
 
         information_name = (EditText)findViewById(R.id.txtName);
         information_firstname = (EditText)findViewById(R.id.txtFirstname);
         information_email = (EditText)findViewById(R.id.txtEmail);
+        information_email_responsable = (EditText)findViewById(R.id.txtEmailResponsable);
 
         InformationDB = new InformationAdapter(getApplicationContext());
     }
@@ -48,7 +54,7 @@ public class InformationActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnSubmit:
+            case R.id.btnSubmitMyInformation:
                 if(information_name.getText().length() == 0 || !isValidString(information_name.getText().toString(), "[A-Za-z]+")){
                     information_name.setError("Le nom est obligatoire et doit comporter que des lettres");
                     Log.i("InformationActivity", "nom faux");
@@ -62,10 +68,19 @@ public class InformationActivity extends Activity implements View.OnClickListene
                     Log.i("InformationActivity", "email faux");
                 }
                 else{
-                    InformationDB.insertOrUpdate(information_name.getText().toString(),information_firstname.getText().toString(),information_email.getText().toString());
+                    InformationDB.insertOrUpdateMyInformation(information_name.getText().toString(), information_firstname.getText().toString(), information_email.getText().toString());
                     Log.i("InformationActivity", "enregistrement des information");
                 }
                 break;
+            case R.id.btnSubmitResponsable:
+                if(information_email_responsable.getText().length() == 0 || !isValidString(information_email_responsable.getText().toString(), "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+                    information_email_responsable.setError("L'email est obligatoire et doit se présenter comme ceci : adresse@email.fr");
+                    Log.i("InformationActivity", "email faux");
+                }
+                else{
+                    InformationDB.insertOrUpdateResponsable(information_email_responsable.getText().toString());
+                    Log.i("InformationActivity", "enregistrement des information");
+                }
         }
     }
 
@@ -76,7 +91,10 @@ public class InformationActivity extends Activity implements View.OnClickListene
             information_name.setText(info.getString(0));
             information_firstname.setText(info.getString(1));
             information_email.setText(info.getString(2));
+            information_email_responsable.setText(info.getString(3));
         }
+        else
+            information_email_responsable.setText("nathalie.gruson@univ-savoie.fr");
     }
 
     private boolean isValidString(String string,String pattern) {

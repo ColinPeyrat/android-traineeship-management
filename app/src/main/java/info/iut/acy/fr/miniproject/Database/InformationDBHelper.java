@@ -12,12 +12,14 @@ public class InformationDBHelper extends SQLiteOpenHelper {
     public static final String KEY_NAME = "name";
     public static final String KEY_FIRSTNAME = "firstname";
     public static final String KEY_EMAIL = "email";
+    public static final String KEY_EMAIL_RESPONSABLE = "email_responsable";
 
     // String permettant la creation de la table
     private static final String DATABASE_CREATE_INFORMATION = "create table " + NOM_TABLE_INFORMATION +
             " (" + KEY_NAME + " text not null, " +
             KEY_FIRSTNAME + " text not null, " +
-            KEY_EMAIL + " text not null );";
+            KEY_EMAIL + " text not null, " +
+            KEY_EMAIL_RESPONSABLE + " default 'nathalie.gruson@univ-savoie.fr');";
 
     public InformationDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

@@ -9,11 +9,11 @@ import android.util.Log;
 
 public class InformationAdapter {
 
-    // variables de dÈfinition de la base gÈrÈe
+    // variables de d√©finition de la base g√©r√©e
     private static final String DATABASE_NAME = "database.db";
     private static final int DATABASE_VERSION = 1;
-    private SQLiteDatabase shotsDB; // reference vers une base de donnÈes
-    private InformationDBHelper dbHelper; // rÈfÈrence vers le Helper de gestion de la base
+    private SQLiteDatabase shotsDB; // reference vers une base de donn√©es
+    private InformationDBHelper dbHelper; // r√©f√©rence vers le Helper de gestion de la base
 
     public InformationAdapter(Context context) { // constructeur
         dbHelper = new InformationDBHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +36,7 @@ public class InformationAdapter {
     }
 
     // insert information
-    public long insertOrUpdate(String name, String firstname, String email){
+    public long insertOrUpdateMyInformation(String name, String firstname, String email){
         Log.i("insertInformation", "appele");
         ContentValues newValue  = new ContentValues();
         newValue.put(InformationDBHelper.KEY_NAME,name);
@@ -51,9 +51,22 @@ public class InformationAdapter {
             return shotsDB.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
     }
 
-    // select * (renvoie tous les ÈlÈments de la table)
+    public long insertOrUpdateResponsable(String email){
+        Log.i("insertInformation", "appele");
+        ContentValues newValue  = new ContentValues();
+        newValue.put(InformationDBHelper.KEY_EMAIL_RESPONSABLE, email);
+
+        Cursor value = getAllInformation();
+
+        if(value.getCount() > 0)
+            return shotsDB.update(InformationDBHelper.NOM_TABLE_INFORMATION, newValue, null, null);
+        else
+            return shotsDB.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
+    }
+
+    // select * (renvoie tous les √©l√©ments de la table)
     public Cursor getAllInformation(){
-        return shotsDB.query(InformationDBHelper.NOM_TABLE_INFORMATION, new String[]{InformationDBHelper.KEY_NAME,InformationDBHelper.KEY_FIRSTNAME,InformationDBHelper.KEY_EMAIL}, null, null, null, null, null);
+        return shotsDB.query(InformationDBHelper.NOM_TABLE_INFORMATION, new String[]{InformationDBHelper.KEY_NAME,InformationDBHelper.KEY_FIRSTNAME,InformationDBHelper.KEY_EMAIL,InformationDBHelper.KEY_EMAIL_RESPONSABLE}, null, null, null, null, null);
     }
 
 }
