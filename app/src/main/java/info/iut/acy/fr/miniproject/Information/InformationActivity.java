@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,8 +34,6 @@ public class InformationActivity extends Activity implements View.OnClickListene
         Button btnSaveMyInformation = (Button)findViewById(R.id.btnSubmitMyInformation);
         btnSaveMyInformation.setOnClickListener(this);
 
-        Button btnSaveResponsable = (Button)findViewById(R.id.btnSubmitResponsable);
-        btnSaveResponsable.setOnClickListener(this);
 
         information_name = (EditText)findViewById(R.id.txtName);
         information_firstname = (EditText)findViewById(R.id.txtFirstname);
@@ -63,24 +62,21 @@ public class InformationActivity extends Activity implements View.OnClickListene
                     information_firstname.setError("Le prénom est obligatoire et doit comporter que des lettres");
                     Log.i("InformationActivity", "prenom faux");
                 }
-                else if(information_email.getText().length() == 0 || !isValidString(information_email.getText().toString(), "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+                else if(information_email.getText().length() == 0 || !isValidString(information_email.getText().toString(), "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
                     information_email.setError("L'email est obligatoire et doit se présenter comme ceci : adresse@email.fr");
                     Log.i("InformationActivity", "email faux");
-                }
-                else{
-                    InformationDB.insertOrUpdateMyInformation(information_name.getText().toString(), information_firstname.getText().toString(), information_email.getText().toString());
-                    Log.i("InformationActivity", "enregistrement des information");
-                }
-                break;
-            case R.id.btnSubmitResponsable:
-                if(information_email_responsable.getText().length() == 0 || !isValidString(information_email_responsable.getText().toString(), "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+                } else if(information_email_responsable.getText().length() == 0 || !isValidString(information_email_responsable.getText().toString(), "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
                     information_email_responsable.setError("L'email est obligatoire et doit se présenter comme ceci : adresse@email.fr");
                     Log.i("InformationActivity", "email faux");
-                }
-                else{
+                } else{
+                    InformationDB.insertOrUpdateMyInformation(information_name.getText().toString(), information_firstname.getText().toString(), information_email.getText().toString());
+                    Log.i("InformationActivity", "enregistrement des information");
                     InformationDB.insertOrUpdateResponsable(information_email_responsable.getText().toString());
                     Log.i("InformationActivity", "enregistrement des information");
+                    Toast.makeText(getApplicationContext(), "Vos informations ont bien été mise à jour", Toast.LENGTH_LONG).show();
+
                 }
+                break;
         }
     }
 

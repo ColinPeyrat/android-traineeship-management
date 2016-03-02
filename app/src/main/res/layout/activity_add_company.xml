@@ -68,7 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/EditTextService"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:hint="Service de l&apos;entreprise" />
 
         <EditText
             android:id="@+id/EditTextPhone"

@@ -101,7 +101,7 @@ public class AddCompanyActivity extends Activity {
                     companyPhoneEditText.setError(null);
                     companyMailEditText.setError("Email invalide");
                 }else{
-                    Toast.makeText(getApplicationContext(), "C'est bon zinc", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Entreprise ajoutée", Toast.LENGTH_LONG).show();
 
                     //remove all error
                     companyPhoneEditText.setError(null);
