@@ -12,7 +12,6 @@ import android.widget.SimpleCursorAdapter;
 
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.R;
-import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter2;
 import info.iut.acy.fr.miniproject.Database.TraineeshipDBHelper;
 
 
@@ -29,12 +28,17 @@ public class CompanyActivity extends Activity implements OnClickListener{
         btnRefresh.setOnClickListener(this);
 
         TraineeshipDB = new TraineeshipAdapter(getApplicationContext());
+
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TraineeshipDB.open();
+
+        // Rafraîchis la ListView
         populate();
 
     }
@@ -57,9 +61,9 @@ public class CompanyActivity extends Activity implements OnClickListener{
     // alimentation de la liste par le contenu de la base de données
     private void populate(){
         ListAdapter adapter = new SimpleCursorAdapter(this,
-                R.layout.list_item_comany, TraineeshipDB.getAllCompany(),
-                new String[] {TraineeshipDBHelper.KEY_NAME, TraineeshipDBHelper.KEY_ADRESS},
-                new int[] {R.id.company_name, R.id.company_address});
+                R.layout.list_item_company, TraineeshipDB.getAllCompany(),
+                new String[] {TraineeshipDBHelper.KEY_NAME, TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_COUNTRY},
+                new int[] {R.id.company_name, R.id.company_address,R.id.TextViewCompanyCity,R.id.TextViewCompanyPostal,R.id.EditTextCountry});
 
         // Le coordonne avec le nouvel adaptateur
         ((ListView)findViewById(R.id.ListViewCompany)).setAdapter(adapter);

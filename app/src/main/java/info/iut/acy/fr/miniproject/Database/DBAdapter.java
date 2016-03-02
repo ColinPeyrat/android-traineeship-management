@@ -66,7 +66,7 @@ public class DBAdapter {
         @Override
         public void onCreate(SQLiteDatabase db)
         {
-            Log.d("DBAdapter","OnCreate Appelé");
+            Log.d("DBAdapter","OnCreate AppelÃ©");
             db.execSQL(CREATE_TABLE_COMPANY);
             db.execSQL(CREATE_TABLE_CONTACT);
             db.execSQL(CREATE_TABLE_INFORMATION);
