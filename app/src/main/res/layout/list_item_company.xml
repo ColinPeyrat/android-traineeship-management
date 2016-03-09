@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="Ville de l&apos;entreprise"
                 android:layout_gravity="top" />
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:text="Code postal de l&apos;entreprise" />
         </LinearLayout>
         <TextView

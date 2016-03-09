@@ -2,6 +2,7 @@ package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,12 +61,12 @@ public class CompanyActivity extends Activity implements OnClickListener{
 
     // alimentation de la liste par le contenu de la base de données
     private void populate(){
-        ListAdapter adapter = new SimpleCursorAdapter(this,
-                R.layout.list_item_company, TraineeshipDB.getAllCompany(),
-                new String[] {TraineeshipDBHelper.KEY_NAME, TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_COUNTRY},
-                new int[] {R.id.company_name, R.id.company_address,R.id.TextViewCompanyCity,R.id.TextViewCompanyPostal,R.id.EditTextCountry});
-
-        // Le coordonne avec le nouvel adaptateur
-        ((ListView)findViewById(R.id.ListViewCompany)).setAdapter(adapter);
+        Cursor companyCursor = TraineeshipDB.getAllCompany();
+        // Find ListView to populate
+        ListView lvItems = (ListView) findViewById(R.id.ListViewCompany);
+        // Setup cursor adapter using cursor from last step
+        CompanyCursorAdapter todoAdapter = new CompanyCursorAdapter(this, companyCursor);
+        // Attach cursor adapter to the ListView
+        lvItems.setAdapter(todoAdapter);
     }
 }
