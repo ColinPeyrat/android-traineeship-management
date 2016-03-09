@@ -2,123 +2,108 @@ package info.iut.acy.fr.miniproject.Excel;
 
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+import info.iut.acy.fr.miniproject.Database.InformationAdapter;
+import info.iut.acy.fr.miniproject.Information.InformationActivity;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class ExcelActivity extends Activity
 {
+
+    InformationAdapter InformationDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet(WorkbookUtil.createSafeSheetName("Mon offre"));
+        InformationDB = new InformationAdapter(getApplicationContext());
 
-        //create differrente row
-        sheet.createRow(0);
-        Row row1 = sheet.createRow(1);
-        Row row2 = sheet.createRow(2);
-        Row row3 = sheet.createRow(3);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        InformationDB.open();
+        Cursor info = InformationDB.getAllInformation();
+        info.moveToFirst();
+        if(info.getCount() != 0 && info.getString(0).length() != 0 && info.getString(1).length() != 0 && info.getString(2).length() != 0 && info.getString(3).length() != 0){
+            createOffreStage(info);
+        }
+        else{
+            Intent infointent = new Intent(getApplicationContext(), InformationActivity.class);
+            startActivity(infointent);
+            Toast.makeText(getApplicationContext(), "Veuillez remplir vos information", Toast.LENGTH_SHORT).show();
+            Log.i("Excel","redirect to myinformation");
+        }
+    }
+
+    private void createOffreStage(Cursor info){
+        AssetManager assetm = getAssets();
+
+        XSSFWorkbook workbook = null;
+        try {
+            workbook = new XSSFWorkbook(assetm.open("offreStage.xlsx"));
+        } catch (IOException e) {
+            Log.i("Excel","Can't create file");
+            Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
+        }
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        Row row = sheet.getRow(3);
 
         //student block
-        //row 1
-        createCell(sheet, workbook, row1, (short) 0, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Etudiant");
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 2));
-        //row2
-        createCell(sheet, workbook,row2, (short) 0, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "mail");
-        createCell(sheet, workbook,row2, (short) 1, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom");
-        createCell(sheet, workbook,row2, (short) 2, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "prénom");
-        //row3
-        createCell(sheet, workbook,row3, (short) 0, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "benji.grus@icloud.com");
-        createCell(sheet, workbook,row3, (short) 1, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "Grus");
-        createCell(sheet, workbook,row3, (short) 2, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "Benjamin");
+        row.getCell(0).setCellValue(info.getString(2)); //mail
+        row.getCell(1).setCellValue(info.getString(0)); //nom
+        row.getCell(2).setCellValue(info.getString(1)); //prenom
 
-        //entreprise block
-        //row 1
-        createCell(sheet, workbook, row1, (short) 3, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Entreprise");
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 18));
-        //row 2
-        createCell(sheet, workbook,row2, (short) 3, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom");
-        createCell(sheet, workbook,row2, (short) 4, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "adresse");
-        createCell(sheet, workbook,row2, (short) 5, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "code postal");
-        createCell(sheet, workbook,row2, (short) 6, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "ville");
-        createCell(sheet, workbook,row2, (short) 7, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "pays");
-        createCell(sheet, workbook,row2, (short) 8, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "Nom du service");
-        createCell(sheet, workbook,row2, (short) 9, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "adresse lieu de stage (si <> adresse entreprise)");
-        createCell(sheet, workbook,row2, (short) 10, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "téléphone");
-        createCell(sheet, workbook,row2, (short) 11, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "mail");
-        createCell(sheet, workbook,row2, (short) 12, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "site internet");
-        createCell(sheet, workbook,row2, (short) 13, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "taille");
-        createCell(sheet, workbook,row2, (short) 14, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom représentant");
-        createCell(sheet, workbook,row2, (short) 15, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "prénom représentant");
-        createCell(sheet, workbook,row2, (short) 16, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "fonction représentant");
-        createCell(sheet, workbook,row2, (short) 17, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "compétence informatique");
-        createCell(sheet, workbook,row2, (short) 18, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "activité");
-        //row 3
-        createCell(sheet, workbook,row3, (short) 3, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom");
-        createCell(sheet, workbook,row3, (short) 4, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "adresse");
-        createCell(sheet, workbook,row3, (short) 5, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "code postal");
-        createCell(sheet, workbook,row3, (short) 6, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "ville");
-        createCell(sheet, workbook,row3, (short) 7, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "pays");
-        createCell(sheet, workbook,row3, (short) 8, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "Nom du service");
-        createCell(sheet, workbook,row3, (short) 9, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "adresse lieu de stage (si <> adresse entreprise)");
-        createCell(sheet, workbook,row3, (short) 10, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "téléphone");
-        createCell(sheet, workbook,row3, (short) 11, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "mail");
-        createCell(sheet, workbook,row3, (short) 12, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "site internet");
-        createCell(sheet, workbook,row3, (short) 13, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "taille");
-        createCell(sheet, workbook,row3, (short) 14, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom représentant");
-        createCell(sheet, workbook,row3, (short) 15, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "prénom représentant");
-        createCell(sheet, workbook,row3, (short) 16, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "fonction représentant");
-        createCell(sheet, workbook,row3, (short) 17, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "compétence informatique");
-        createCell(sheet, workbook,row3, (short) 18, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "activité");
+        //company block
+        row.getCell(3).setCellValue(""); //nom
+        row.getCell(4).setCellValue(""); //adresse
+        row.getCell(5).setCellValue(""); //cp
+        row.getCell(6).setCellValue(""); //ville
+        row.getCell(7).setCellValue(""); //pays
+        row.getCell(8).setCellValue(""); //nom du service
+        row.getCell(9).setCellValue(""); //adresse lieu de stage
+        row.getCell(10).setCellValue(""); //telephone
+        row.getCell(11).setCellValue(""); //mail
+        row.getCell(12).setCellValue(""); //site internet
+        row.getCell(13).setCellValue(""); //taille
+        row.getCell(14).setCellValue(""); //nom du representant
+        row.getCell(15).setCellValue(""); //prenom du representant
+        row.getCell(16).setCellValue(""); //fonction du representant
+        row.getCell(17).setCellValue(""); //competence info
+        row.getCell(18).setCellValue(""); //activité
 
         //tuteur block
-        //row 1
-        createCell(sheet, workbook, row1, (short) 19, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Tuteur");
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 19, 23));
-        //row 2
-        createCell(sheet, workbook,row2, (short) 19, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom");
-        createCell(sheet, workbook,row2, (short) 20, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "prénom");
-        createCell(sheet, workbook,row2, (short) 21, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "fonction");
-        createCell(sheet, workbook,row2, (short) 22, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "mail");
-        createCell(sheet, workbook,row2, (short) 23, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "téléphone");
-        //row 3
-        createCell(sheet, workbook,row3, (short) 19, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "nom");
-        createCell(sheet, workbook,row3, (short) 20, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "prénom");
-        createCell(sheet, workbook,row3, (short) 21, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "fonction");
-        createCell(sheet, workbook,row3, (short) 22, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "mail");
-        createCell(sheet, workbook,row3, (short) 23, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "téléphone");
+        row.getCell(19).setCellValue(""); //nom
+        row.getCell(20).setCellValue(""); //prenom
+        row.getCell(21).setCellValue(""); //fonction
+        row.getCell(22).setCellValue(""); //mail
+        row.getCell(23).setCellValue(""); //telephone
 
         //stage block
-        //row 1
-        createCell(sheet, workbook, row1, (short) 24, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Stage");
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 24, 29));
-        //row 2
-        createCell(sheet, workbook,row2, (short) 24, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "date début");
-        createCell(sheet, workbook,row2, (short) 25, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "date de fin");
-        createCell(sheet, workbook,row2, (short) 26, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "sujet");
-        createCell(sheet, workbook,row2, (short) 27, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "compétences à acquérir");
-        createCell(sheet, workbook,row2, (short) 28, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "activités confiées");
-        createCell(sheet, workbook,row2, (short) 29, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "origine offre");
-        //row 3
-        createCell(sheet, workbook,row3, (short) 24, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "date début");
-        createCell(sheet, workbook,row3, (short) 25, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "date de fin");
-        createCell(sheet, workbook,row3, (short) 26, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "sujet");
-        createCell(sheet, workbook,row3, (short) 27, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "compétences à acquérir");
-        createCell(sheet, workbook,row3, (short) 28, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "activités confiées");
-        createCell(sheet, workbook,row3, (short) 29, CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, "origine offre");
-
+        row.getCell(24).setCellValue(""); //date debut
+        row.getCell(25).setCellValue(""); //date fin
+        row.getCell(26).setCellValue(""); //sujet
+        row.getCell(27).setCellValue(""); //competence à acquerir
+        row.getCell(28).setCellValue(""); //activite confiees
+        row.getCell(29).setCellValue("last"); //origin offre
 
         String outFileName = "offreStage.xlsx";
         try {
@@ -132,23 +117,7 @@ public class ExcelActivity extends Activity
         } catch (Exception e) {
             /* proper exception handling to be here */
             Log.i("Excel", e.toString());
+            Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /**
-     * Creates a cell and aligns it a certain way.
-     *
-     * @param wb     the workbook
-     * @param row    the row to create the cell in
-     * @param column the column number to create the cell in
-     * @param halign the horizontal alignment for the cell.
-     */
-    private static void createCell(Sheet sheet, Workbook wb, Row row, short column, short halign, short valign, String value) {
-        Cell cell = row.createCell(column);
-        cell.setCellValue(value);
-        CellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(halign);
-        cellStyle.setVerticalAlignment(valign);
-        cell.setCellStyle(cellStyle);
     }
 }

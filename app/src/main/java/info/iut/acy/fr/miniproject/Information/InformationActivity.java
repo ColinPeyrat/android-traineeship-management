@@ -8,14 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import info.iut.acy.fr.miniproject.Database.InformationAdapter;
+import info.iut.acy.fr.miniproject.R;
 
-import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import info.iut.acy.fr.miniproject.Database.InformationAdapter;
-import info.iut.acy.fr.miniproject.Database.InformationAdapter2;
-import info.iut.acy.fr.miniproject.R;
 
 public class InformationActivity extends Activity implements View.OnClickListener {
 
@@ -34,7 +31,6 @@ public class InformationActivity extends Activity implements View.OnClickListene
 
         Button btnSaveMyInformation = (Button)findViewById(R.id.btnSubmitMyInformation);
         btnSaveMyInformation.setOnClickListener(this);
-
 
         information_name = (EditText)findViewById(R.id.txtName);
         information_firstname = (EditText)findViewById(R.id.txtFirstname);
