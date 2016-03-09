@@ -10,9 +10,6 @@ import android.util.Log;
 
 import java.sql.SQLException;
 
-/**
- * Created by peyratc on 02/03/2016.
- */
 public class InformationAdapter {
 
     // membres public permettant de dfinir les champs de la base
@@ -58,9 +55,7 @@ public class InformationAdapter {
      * instance of the database. If it cannot be created, throw an exception to
      * signal the failure
      *
-     * @return this (self reference, allowing this to be chained in an
-     *         initialization call)
-     * @throws SQLException
+     * @throws SQLiteException
      *             if the database could be neither opened or created
      */
     public void open() throws SQLiteException{
@@ -73,7 +68,6 @@ public class InformationAdapter {
             this.mDb = this.mDbHelper.getReadableDatabase();
             Log.i("InformationAdapter2", "Base ouverte en lecture " + NOM_TABLE_INFORMATION);
         }
-
     }
 
     /**

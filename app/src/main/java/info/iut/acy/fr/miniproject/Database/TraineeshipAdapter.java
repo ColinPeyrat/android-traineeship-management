@@ -111,6 +111,20 @@ public class TraineeshipAdapter{
         return mDb.insert(TraineeshipDBHelper.NOM_TABLE_COMPANY, null, newValue);
     }
 
+    /**
+    * Récupère une seule offre de stage correspondant a l'id passé en parametre
+    *
+    * @param ligneID
+    * @return reponse
+    */
+    public Cursor getSingleCompany(long ligneID){
+        Cursor reponse = mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
+                        TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
+                        TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, TraineeshipAdapter.KEY_ID + " = " + ligneID, null, null,
+                null, null);
+        return reponse;
+    }
+
    /* *//**
      * Create a new car. If the car is successfully created return the new
      * rowId for that car, otherwise return a -1 to indicate failure.
