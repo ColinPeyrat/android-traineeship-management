@@ -10,9 +10,6 @@ import android.util.Log;
 
 import java.sql.SQLException;
 
-/**
- * Created by peyratc on 02/03/2016.
- */
 public class TraineeshipAdapter{
 
     // membres public permettant de dfinir les champs de la base
@@ -66,9 +63,7 @@ public class TraineeshipAdapter{
      * instance of the database. If it cannot be created, throw an exception to
      * signal the failure
      *
-     * @return this (self reference, allowing this to be chained in an
-     *         initialization call)
-     * @throws SQLException
+     * @throws SQLiteException
      *             if the database could be neither opened or created
      */
     public void open() throws SQLiteException{
@@ -96,7 +91,7 @@ public class TraineeshipAdapter{
     public Cursor getAllCompany(){
         return mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
                 TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
-                TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, null, null, null, null, null);
+                TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, null, null, null, null, KEY_ID+" DESC");
     }
     // insert a company
     public long insertCompany(String name, String address, String postal, String town, String country,String service, String phone, String mail, String website, String size,String description){

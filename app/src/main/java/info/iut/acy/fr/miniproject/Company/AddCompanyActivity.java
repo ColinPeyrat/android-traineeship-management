@@ -105,7 +105,9 @@ public class AddCompanyActivity extends Activity {
                     companyMailEditText.setError(null);
 
                     TraineeshipDB.insertCompany(companyName,companyAdress,companyPostal,companyCity,companyCountry,companyService,companyPhone,companyMail,companyWebsite,companySize,companyDescription);
+                    finish();
                 }
+
 
 
             }
