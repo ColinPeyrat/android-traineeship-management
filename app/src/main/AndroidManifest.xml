@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="info.iut.acy.fr.miniproject" >
 
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,6 +35,14 @@
         </activity>
         <activity
             android:name=".Information.InformationActivity"
+            android:label="@string/title_activity_information"
+            android:parentActivityName=".Main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Excel.ExcelActivity"
             android:label="@string/title_activity_information"
             android:parentActivityName=".Main.MainActivity" >
             <meta-data
