@@ -11,5 +11,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_add_company">Ajouter une offre de stage</string>
     <string name="title_activity_company_details">Détails de l\'offre de stage</string>
+    <string name="unregistered">Non renseigné(e)</string>
     <string name="title_activity_add_contact">Ajouter un contact</string>
 </resources>
