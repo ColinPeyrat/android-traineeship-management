@@ -8,28 +8,22 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
+import android.widget.*;
 import info.iut.acy.fr.miniproject.Database.ContactAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.R;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 public class AddContactActivity extends Activity implements View.OnClickListener {
 
     private Spinner contactCompanySpinner;
     private Spinner contactMeansSpinner;
     private EditText contactDesciptionEditText;
-
+    private HashMap<String,Long> companys;
 
     private Calendar calendar;
     private EditText contactDateEditText;
@@ -87,20 +81,26 @@ public class AddContactActivity extends Activity implements View.OnClickListener
 
         Cursor company = CompanyDB.getAllCompany();
 
+
+        String[] spinnerArray =  new String[company.getCount()];
         // Spinner Drop down elements
-        List<String> companys = new ArrayList<String>();
+        companys = new HashMap<String, Long>();
 
         if (company != null ) {
             if  (company.moveToFirst()) {
+                Integer i=0;
                 do {
                     String name = company.getString(company.getColumnIndex(TraineeshipAdapter.KEY_NAME));
-                    companys.add(name);
+                    Long id = Long.valueOf(company.getString(company.getColumnIndexOrThrow(TraineeshipAdapter.KEY_ID)));
+                    companys.put(name,id);
+                    spinnerArray[i] = name;
+                    i++;
                 }while (company.moveToNext());
             }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapterCompanys = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, companys);
+        ArrayAdapter<String> dataAdapterCompanys = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerArray);
 
         // Drop down layout style - list view with radio button
         dataAdapterCompanys.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,12 +146,18 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         switch(v.getId()){
             case R.id.submitContact:
 
-                Long companyID = contactCompanySpinner.getSelectedItemId();
+                Long companyID = companys.get(contactCompanySpinner.getSelectedItem().toString());
                 String contactMeans = contactMeansSpinner.getSelectedItem().toString();
                 String contactDescription = contactDesciptionEditText.getText().toString();
                 String contactDate = contactDateEditText.getText().toString();
 
-                ContactDB.insertContact(companyID,contactMeans,contactDescription,contactDate);
+                if(contactDescription.trim().equals(""))
+                    contactDesciptionEditText.setError("La description est requise");
+                else{
+                    Toast.makeText(getApplicationContext(), "Contact ajoutée", Toast.LENGTH_LONG).show();
+                    ContactDB.insertContact(companyID,contactMeans,contactDescription,contactDate);
+                    finish();
+                }
                 break;
             case R.id.contact_date:
                 showDialog(999);
