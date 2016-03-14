@@ -20,6 +20,8 @@ public class ContactActivity extends Activity implements View.OnClickListener {
     private ListView lvContact;
     private ContactAdapter ContactDB;
     private TraineeshipAdapter CompanyDB;
+    private String Sort = "ASC";
+    private Button btnRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,10 @@ public class ContactActivity extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.activity_contact);
 
-        Button btnRefresh = (Button)findViewById(R.id.btnAdd);
+        Button btnAdd = (Button)findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(this);
+
+        btnRefresh = (Button)findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(this);
 
         companySpinner = (Spinner)findViewById(R.id.SpinnerCompany);
@@ -68,6 +73,11 @@ public class ContactActivity extends Activity implements View.OnClickListener {
 
         // Rafra�chis la ListView
         populate();
+
+        if(Sort == "ASC")
+            btnRefresh.setText("Descendant");
+        else if(Sort == "DESC")
+            btnRefresh.setText("Ascendant");
 
         Cursor company = CompanyDB.getAllCompany();
 
@@ -110,12 +120,29 @@ public class ContactActivity extends Activity implements View.OnClickListener {
                 // avertis l'utilisateur par un toast si c'est le cas
                 // populate();
                 break;
+            case R.id.btnRefresh:
+                Log.i("btnRefresh",Sort);
+
+                if(Sort == "ASC"){
+                    btnRefresh.setText("Ascendant");
+                    Sort = "DESC";
+                }
+                else if(Sort == "DESC"){
+                    btnRefresh.setText("Descendant");
+                    Sort = "ASC";
+                }
+
+                if(companySpinner.getSelectedItemPosition() == 0)
+                    populate();
+                else
+                    populate(companys.get(companySpinner.getSelectedItem().toString()));
+                break;
         }
     }
 
     // alimentation de la liste par le contenu de la base de donn�es
     private void populate(){
-        Cursor contactCursor = ContactDB.getAllContact();
+        Cursor contactCursor = ContactDB.getAllContact(Sort);
         // Setup cursor adapter using cursor from last step
         ContactCursorAdapter todoAdapter = new ContactCursorAdapter(this, contactCursor);
         // Attach cursor adapter to the ListView
@@ -123,7 +150,7 @@ public class ContactActivity extends Activity implements View.OnClickListener {
     }
 
     private void populate(Long company){
-        Cursor contactCursor = ContactDB.getContactByCompany(company);
+        Cursor contactCursor = ContactDB.getContactByCompany(company,Sort);
         // Setup cursor adapter using cursor from last step
         ContactCursorAdapter todoAdapter = new ContactCursorAdapter(this, contactCursor);
         // Attach cursor adapter to the ListView

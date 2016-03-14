@@ -11,13 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ListViewContact"
-        android:layout_below="@+id/SpinnerCompany" />
+        android:layout_below="@+id/btnRefresh" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRefresh"
+        android:layout_below="@+id/SpinnerCompany"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/SpinnerCompany"
-        android:layout_below="@id/btnAdd"
+        android:layout_below="@+id/btnAdd"
         android:minHeight="48dp"/>
 
     <Button

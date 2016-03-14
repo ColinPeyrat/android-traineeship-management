@@ -52,7 +52,6 @@ public class AddContactActivity extends Activity implements View.OnClickListener
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year, month + 1, day);
@@ -129,8 +128,34 @@ public class AddContactActivity extends Activity implements View.OnClickListener
     };
 
     private void showDate(int year, int month, int day) {
-        contactDateEditText.setText(new StringBuilder().append(day).append("/")
-                .append(month).append("/").append(year));
+        String smonth;
+        String sday;
+        if(month < 10)
+            smonth = "0"+month;
+        else
+            smonth = String.valueOf(month);
+        if(day < 10)
+            sday = "0"+day;
+        else
+            sday = String.valueOf(day);
+
+        contactDateEditText.setText(new StringBuilder().append(sday).append("/")
+                .append(smonth).append("/").append(year));
+    }
+
+    private String storeDate(int year, int month, int day){
+        String smonth;
+        String sday;
+        if(month < 10)
+            smonth = "0"+month;
+        else
+            smonth = String.valueOf(month);
+        if(day < 10)
+            sday = "0"+day;
+        else
+            sday = String.valueOf(day);
+        return String.valueOf(new StringBuilder().append(year).append("-")
+                .append(smonth).append("-").append(sday));
     }
 
     @Override
@@ -148,7 +173,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 Long companyID = companys.get(contactCompanySpinner.getSelectedItem().toString());
                 String contactMeans = contactMeansSpinner.getSelectedItem().toString();
                 String contactDescription = contactDesciptionEditText.getText().toString();
-                String contactDate = contactDateEditText.getText().toString();
+                String contactDate = storeDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 
                 if(contactDescription.trim().equals(""))
                     contactDesciptionEditText.setError("La description est requise");
