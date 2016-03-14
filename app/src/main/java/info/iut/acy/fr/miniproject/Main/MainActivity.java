@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import info.iut.acy.fr.miniproject.Company.CompanyActivity;
+import info.iut.acy.fr.miniproject.Contact.ContactActivity;
+import info.iut.acy.fr.miniproject.Database.ContactAdapter;
 import info.iut.acy.fr.miniproject.Database.DBAdapter;
 import info.iut.acy.fr.miniproject.Excel.ExcelActivity;
 import info.iut.acy.fr.miniproject.Information.InformationActivity;
@@ -64,6 +66,10 @@ public class MainActivity extends Activity{
                     // Item "Mes contacts" clicked
                     case 1:
                         Log.i("menu","Mes contacts");
+                        Intent intentContact = new Intent(getBaseContext(), ContactActivity.class);
+                        startActivity(intentContact);
+                        // avertis l'utilisateur par un toast si c'est le cas
+                        Toast.makeText(getApplicationContext(), "Accès à vos contacts", Toast.LENGTH_SHORT).show();
                         break;
 
                     // Item "Mes informations" clicked

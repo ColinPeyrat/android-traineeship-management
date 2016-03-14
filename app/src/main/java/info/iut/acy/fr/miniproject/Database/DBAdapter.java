@@ -32,7 +32,8 @@ public class DBAdapter {
             " (" + ContactAdapter.KEY_IDCONTACT + " integer primary key autoincrement, " +
             ContactAdapter.KEY_IDCOMPANY + " integer not null, " +
             ContactAdapter.KEY_CONTACTMEANS + " text not null, " +
-            ContactAdapter.KEY_CONTACTDATE + " text not null); ";
+            ContactAdapter.KEY_CONTACTDESCRIPTION + " text not null, " +
+            ContactAdapter.KEY_CONTACTDATE + " date not null); ";
 
     // String permettant la creation de la table
     private static final String CREATE_TABLE_INFORMATION = "create table " + InformationAdapter.NOM_TABLE_INFORMATION +

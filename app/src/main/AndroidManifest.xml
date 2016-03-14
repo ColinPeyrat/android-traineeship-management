@@ -57,6 +57,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Company.CompanyActivity" />
         </activity>
+        <activity
+            android:name=".Contact.ContactActivity"
+            android:label="@string/title_activity_contact"
+            android:parentActivityName=".Main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Contact.AddContactActivity"
+            android:label="@string/title_activity_add_contact"
+            android:parentActivityName=".Contact.ContactActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Contact.ContactActivity" />
+        </activity>
     </application>
 
 </manifest>

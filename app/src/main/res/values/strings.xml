@@ -6,8 +6,10 @@
     <string name="image_view">des gens</string>
     <string name="title_activity_company">Mes offres de stages</string>
     <string name="title_activity_information">Mes informations</string>
+    <string name="title_activity_contact">Mes Contacts</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_add_company">Ajouter une offre de stage</string>
     <string name="title_activity_company_details">Détails de l\'offre de stage</string>
+    <string name="title_activity_add_contact">Ajouter un contact</string>
 </resources>
