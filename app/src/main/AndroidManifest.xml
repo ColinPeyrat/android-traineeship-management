@@ -3,6 +3,7 @@
     package="info.iut.acy.fr.miniproject" >
 
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"

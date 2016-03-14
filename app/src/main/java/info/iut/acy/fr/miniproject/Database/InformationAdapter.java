@@ -106,7 +106,7 @@ public class InformationAdapter {
             return mDb.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
     }
 
-    // select * (renvoie tous les éléments de la table)
+    // select * (renvoie tous les Ã©lÃ©ments de la table)
     public Cursor getAllInformation(){
         return mDb.query(InformationDBHelper.NOM_TABLE_INFORMATION, new String[]{InformationDBHelper.KEY_NAME,InformationDBHelper.KEY_FIRSTNAME,InformationDBHelper.KEY_EMAIL,InformationDBHelper.KEY_EMAIL_RESPONSABLE}, null, null, null, null, null);
     }
