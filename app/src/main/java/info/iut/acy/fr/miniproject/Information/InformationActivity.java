@@ -81,10 +81,10 @@ public class InformationActivity extends Activity implements View.OnClickListene
         Cursor info = InformationDB.getAllInformation();
         if(info.getCount() > 0){
             info.moveToFirst();
-            information_name.setText(info.getString(0));
-            information_firstname.setText(info.getString(1));
-            information_email.setText(info.getString(2));
-            information_email_responsable.setText(info.getString(3));
+            information_name.setText(info.getString(info.getColumnIndex(InformationDB.KEY_NAME)));
+            information_firstname.setText(info.getString(info.getColumnIndex(InformationDB.KEY_FIRSTNAME)));
+            information_email.setText(info.getString(info.getColumnIndex(InformationDB.KEY_EMAIL)));
+            information_email_responsable.setText(info.getString(info.getColumnIndex(InformationDB.KEY_EMAIL_RESPONSABLE)));
         }
         else
             information_email_responsable.setText("nathalie.gruson@univ-savoie.fr");

@@ -88,7 +88,7 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="poi-ooxml-schemas-3.12-20150511-a" level="project" />
     <orderEntry type="library" exported="" name="poi-3.12-android-a" level="project" />
+    <orderEntry type="library" exported="" name="poi-ooxml-schemas-3.12-20150511-a" level="project" />
   </component>
 </module>
