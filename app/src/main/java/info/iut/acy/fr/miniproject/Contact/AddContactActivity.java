@@ -29,8 +29,8 @@ public class AddContactActivity extends Activity implements View.OnClickListener
     private EditText contactDateEditText;
     private int year, month, day;
 
-    ContactAdapter ContactDB;
-    TraineeshipAdapter CompanyDB;
+    private ContactAdapter ContactDB;
+    private TraineeshipAdapter CompanyDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,6 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         contactMeansSpinner.setAdapter(dataAdapterMeans);
 
         Cursor company = CompanyDB.getAllCompany();
-
 
         String[] spinnerArray =  new String[company.getCount()];
         // Spinner Drop down elements

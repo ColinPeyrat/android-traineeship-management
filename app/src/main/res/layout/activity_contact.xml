@@ -8,13 +8,20 @@
     android:id="@+id/company">
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ListViewContact"
-        android:layout_below="@+id/btnAdd" />
+        android:layout_below="@+id/SpinnerCompany" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SpinnerCompany"
+        android:layout_below="@id/btnAdd"
+        android:minHeight="48dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ajouter"
         android:id="@+id/btnAdd"

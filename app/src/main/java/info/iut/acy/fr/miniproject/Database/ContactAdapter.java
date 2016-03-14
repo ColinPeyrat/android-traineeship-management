@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.sql.SQLException;
-import java.util.Date;
-
 /**
  * Created by peyratc on 02/03/2016.
  */
@@ -93,6 +90,20 @@ public class ContactAdapter {
                         ContactAdapter.KEY_CONTACTDATE,
                         ContactAdapter.KEY_CONTACTDESCRIPTION
                 }, null, null, null, null, null);
+    }
+
+    // select * (renvoie tous les �l�ments de la table)
+    public Cursor getContactByCompany(Long company){
+        return mDb.query(ContactAdapter.NOM_TABLE_CONTACT  +
+                        " LEFT OUTER JOIN " + TraineeshipAdapter.NOM_TABLE_COMPANY + " ON " +
+                        TraineeshipAdapter.NOM_TABLE_COMPANY + "." + TraineeshipAdapter.KEY_ID + " = " + ContactAdapter.KEY_IDCOMPANY,
+                new String[]{
+                        ContactAdapter.NOM_TABLE_CONTACT + "." + ContactAdapter.KEY_IDCONTACT,
+                        TraineeshipAdapter.KEY_NAME,
+                        ContactAdapter.KEY_CONTACTMEANS,
+                        ContactAdapter.KEY_CONTACTDATE,
+                        ContactAdapter.KEY_CONTACTDESCRIPTION
+                }, ContactAdapter.KEY_IDCOMPANY + " = " + company, null, null, null, null);
     }
 
     public long insertContact(Long idcompany, String means, String desciption, String date){

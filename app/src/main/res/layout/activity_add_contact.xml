@@ -50,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Date du contact"
                     android:inputType="textPersonName"
-                    android:layout_width="fill_parent">
+                    android:layout_width="fill_parent"
+                    android:focusable="false">
                 </EditText>
 
                 <Button
