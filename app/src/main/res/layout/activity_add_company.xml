@@ -16,25 +16,33 @@
             android:layout_height="wrap_content"
             android:stretchColumns="1"
             >
-            <!-- everything you already have -->
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="L&apos;entreprise"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
         <EditText
             android:id="@+id/EditTextName"
             android:layout_height="wrap_content"
-            android:hint="Nom de l'entreprise"
+            android:hint="Nom"
             android:inputType="textPersonName"
             android:layout_width="fill_parent">
         </EditText>
         <EditText
             android:id="@+id/EditTextAdresse"
             android:layout_height="wrap_content"
-            android:hint="Adresse de l'entreprise"
+            android:hint="Adresse"
             android:inputType="textPersonName"
             android:layout_width="fill_parent">
         </EditText>
@@ -42,7 +50,7 @@
         <EditText
             android:id="@+id/EditTextPostal"
             android:layout_height="wrap_content"
-            android:hint="Code postal de l'entreprise"
+            android:hint="Code postal"
             android:inputType="textPersonName|numberSigned"
             android:layout_width="match_parent">
         </EditText>
@@ -50,7 +58,7 @@
         <EditText
            android:id="@+id/EditTextCity"
            android:layout_height="wrap_content"
-           android:hint="Ville de l'entreprise"
+           android:hint="Ville"
            android:inputType="textPersonName"
            android:layout_width="match_parent"
             android:layout_gravity="left">
@@ -59,7 +67,7 @@
         <EditText
             android:id="@+id/EditTextCountry"
             android:layout_height="wrap_content"
-            android:hint="Pays de l'entreprise"
+            android:hint="Pays"
             android:inputType="textPersonName"
             android:layout_width="match_parent">
         </EditText>
@@ -69,33 +77,33 @@
             android:layout_height="wrap_content"
             android:id="@+id/EditTextService"
             android:layout_gravity="center_horizontal"
-            android:hint="Service de l&apos;entreprise" />
+            android:hint="Service" />
 
         <EditText
             android:id="@+id/EditTextPhone"
             android:layout_height="wrap_content"
-            android:hint="Numéro de l'entreprise"
+            android:hint="Numéro"
             android:inputType="phone|textPersonName"
             android:layout_width="fill_parent">
         </EditText>
         <EditText
             android:id="@+id/EditTextMail"
             android:layout_height="wrap_content"
-            android:hint="Email de l'entreprise"
+            android:hint="Email"
             android:inputType="textEmailAddress|textPersonName"
             android:layout_width="fill_parent">
         </EditText>
         <EditText
             android:id="@+id/EditTextWebsite"
             android:layout_height="wrap_content"
-            android:hint="Site de l'entreprise"
+            android:hint="Site"
             android:inputType="textUri|textPersonName"
             android:layout_width="fill_parent">
         </EditText>
         <EditText
             android:id="@+id/EditTextSize"
             android:layout_height="wrap_content"
-            android:hint="Taille de l'entreprise"
+            android:hint="Taille"
             android:inputType="textPersonName|numberSigned"
             android:layout_width="fill_parent">
         </EditText>
@@ -104,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/EditTextDescription"
-            android:hint="Description de l'entreprise"
+            android:hint="Description"
             android:height="100dp" />
         />
 

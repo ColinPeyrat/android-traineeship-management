@@ -90,6 +90,7 @@ public class CompanyDetailsActivity extends Activity {
                     }
                 });
             }
+
             if(phoneCursor.length() > 0) {
                 tvPhone.setText(setStringUnderline(phoneCursor));
                 tvPhone.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +101,7 @@ public class CompanyDetailsActivity extends Activity {
                     }
                 });
             }
+
             if(websiteCursor.length() > 0)
                 tvWebsite.setText(websiteCursor);
 
