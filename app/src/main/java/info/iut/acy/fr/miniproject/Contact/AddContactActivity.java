@@ -231,9 +231,10 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         //Définition de la date de notification
         final Calendar datenotification = Calendar.getInstance();
         datenotification.add(Calendar.SECOND,10);
+        //datenotification.add(Calendar.DAY_OF_MONTH,14);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, datenotification.getTimeInMillis(), pendingIntent);
     }
 
     private Notification getNotification(String notificationTitle, String notificationDesc, int idCompany) {
