@@ -48,13 +48,20 @@ public class MainActivity extends Activity{
 
         MainMenu.setAdapter(itemsAdapter);
 
+        /**
+        * Métode OnClick qui réagit en fonction de l'item du menu qui a été cliqué
+        *
+        * @param View  La vue de l Adapter qui a été cliquée
+        * @param position La position de la vue dans l'adapter
+        * @param id: L'Id de l'item cliqué
+        */
         MainMenu.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("position item menu", String.valueOf(position));
                 switch (position) {
 
-                    // Item "Mes offres de stages" clicked
+                    // Item "Mes offres de stages" clické
                     case 0:
                         Log.i("menu","Mes offres de stage");
                         Intent intentCompany = new Intent(getBaseContext(),CompanyActivity.class);
@@ -63,7 +70,7 @@ public class MainActivity extends Activity{
                         Toast.makeText(getApplicationContext(), "Lancements de vos offres de stage", Toast.LENGTH_SHORT).show();
                         break;
 
-                    // Item "Mes contacts" clicked
+                    // Item "Mes contacts" clické
                     case 1:
                         Log.i("menu","Mes contacts");
                         Intent intentContact = new Intent(getBaseContext(), ContactActivity.class);
@@ -80,7 +87,7 @@ public class MainActivity extends Activity{
                         // avertis l'utilisateur par un toast si c'est le cas
                         Toast.makeText(getApplicationContext(), "Accès à vos informations", Toast.LENGTH_SHORT).show();
                         break;
-                    // Item "Mes informations" clicked
+                    // Item "Mes informations" clické
                     case 3:
                         Log.i("menu","testExcel");
                         Intent intentexcel = new Intent(getBaseContext(), ExcelActivity.class);
@@ -96,12 +103,21 @@ public class MainActivity extends Activity{
     }
 
     @Override
+    /**
+     * Appelé quand l'activité va intéragir avec l'utilisateur, ouvre la base de données
+     */
     protected void onResume() {
         super.onResume();
         db.open();
     }
 
-    // méthode privée permettant de remplir un HashMap
+    /**
+     * méthode privée permettant de remplir un HashMap
+     * @param icon Affiche l'icône correspondant à l'item
+     * @param Title Affiche le titre correspondant à l'item
+     * @return item avec titre et icône
+     */
+
     private HashMap<String, String> fillHashMap (String Title, String icon){
         HashMap<String, String> item = new HashMap<String, String>();
         item.put("MenuTitle", Title);
