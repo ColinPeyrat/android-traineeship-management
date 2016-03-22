@@ -211,9 +211,25 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                     // Affiche un toast pour confirmer l'ajout de contact
                     Toast.makeText(getApplicationContext(), "Contact ajouté", Toast.LENGTH_LONG).show();
                     ContactDB.insertContact(companyID, contactMeans, contactDescription, contactDate);
+
+                    //Définition de la date de notification
+                    Calendar datenotification = Calendar.getInstance();
+                    datenotification.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                    datenotification.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                    datenotification.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+                    datenotification.set(Calendar.HOUR, 8);
+                    datenotification.set(Calendar.MINUTE, 0);
+                    datenotification.set(Calendar.SECOND, 0);
+
                     // Notification pour relancer l'entreprise après 15 jours
-                    this.scheduleNotification(getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue()),companyID.intValue());
-                    finish();
+                    if(datenotification.getTimeInMillis() < System.currentTimeMillis()){
+                        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        Notification notification = getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue());
+                        notificationManager.notify(companyID.intValue(),notification);
+                    }
+                    else
+                        this.scheduleNotification(getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue()),companyID.intValue(),datenotification);
                 }
                 break;
             case R.id.contact_date:
@@ -221,17 +237,14 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private void scheduleNotification(Notification notification, int id) {
+    private void scheduleNotification(Notification notification, int id, Calendar datenotification) {
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Définition de la date de notification
-        final Calendar datenotification = Calendar.getInstance();
-        datenotification.add(Calendar.SECOND,10);
-        //datenotification.add(Calendar.DAY_OF_MONTH,14);
+        datenotification.add(Calendar.DAY_OF_MONTH,14);
 
         cancelAlarmIfExists(id,notificationIntent);
 
