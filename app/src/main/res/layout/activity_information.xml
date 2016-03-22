@@ -21,25 +21,25 @@
                     android:orientation="vertical" android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Mes informations"
-                            android:id="@+id/lblMesInformation"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="10dp"
-                            android:textStyle="bold"
-                            android:textSize="30dp" />
 
-                        <TextView
-                            android:layout_width="320dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Nom"
-                            android:id="@+id/lblName"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="10dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mes informations"
+                        android:id="@+id/lblMesInformation"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="10dp" />
+
+                        <!--<TextView-->
+                            <!--android:layout_width="320dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                            <!--android:text="Nom"-->
+                            <!--android:id="@+id/lblName"-->
+                            <!--android:layout_gravity="center_horizontal"-->
+                            <!--android:layout_marginTop="10dp" />-->
 
                         <EditText
                             android:layout_width="320dp"
@@ -50,14 +50,14 @@
                             android:layout_gravity="center_horizontal"
                             android:hint="Nom" />
 
-                        <TextView
-                            android:layout_width="320dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Prénom"
-                            android:id="@+id/lblFirstname"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center_horizontal" />
+                        <!--<TextView-->
+                            <!--android:layout_width="320dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                            <!--android:text="Prénom"-->
+                            <!--android:id="@+id/lblFirstname"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:layout_gravity="center_horizontal" />-->
 
                         <EditText
                             android:layout_width="320dp"
@@ -68,14 +68,14 @@
                             android:layout_gravity="center_horizontal"
                             android:hint="Prénom" />
 
-                        <TextView
-                            android:layout_width="320dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Email"
-                            android:id="@+id/lblEmail"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center_horizontal" />
+                        <!--<TextView-->
+                            <!--android:layout_width="320dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                            <!--android:text="Email"-->
+                            <!--android:id="@+id/lblEmail"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:layout_gravity="center_horizontal" />-->
 
                         <EditText
                             android:layout_width="320dp"
@@ -84,27 +84,28 @@
                             android:ems="10"
                             android:id="@+id/txtEmail"
                             android:layout_gravity="center_horizontal"
-                            android:hint="Email" />
+                            android:hint="Email"
+                            android:layout_marginBottom="20dp" />
+
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Responsable des stages"
-                            android:id="@+id/textView2"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="10dp"
-                            android:textStyle="bold"
-                            android:textSize="30dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Responsable des stages"
+                        android:id="@+id/textView2"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="10dp" />
 
-                        <TextView
-                            android:layout_width="320dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Email"
-                            android:id="@+id/lblEmailResponsable"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center_horizontal" />
+                        <!--<TextView-->
+                            <!--android:layout_width="320dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                            <!--android:text="Email"-->
+                            <!--android:id="@+id/lblEmailResponsable"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:layout_gravity="center_horizontal" />-->
 
                         <EditText
                             android:layout_width="320dp"
@@ -113,7 +114,8 @@
                             android:ems="10"
                             android:id="@+id/txtEmailResponsable"
                             android:hint="Email"
-                            android:layout_gravity="center_horizontal" />
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="20dp" />
 
                         <Button
                             android:layout_width="wrap_content"

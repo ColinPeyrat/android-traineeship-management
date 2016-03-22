@@ -67,7 +67,7 @@ public class MainActivity extends Activity{
                         Intent intentCompany = new Intent(getBaseContext(),CompanyActivity.class);
                         startActivity(intentCompany);
                         // avertis l'utilisateur par un toast si c'est le cas
-                        Toast.makeText(getApplicationContext(), "Lancements de vos offres de stage", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Lancements de vos offres de stage", Toast.LENGTH_SHORT).show();
                         break;
 
                     // Item "Mes contacts" clické
@@ -76,7 +76,7 @@ public class MainActivity extends Activity{
                         Intent intentContact = new Intent(getBaseContext(), ContactActivity.class);
                         startActivity(intentContact);
                         // avertis l'utilisateur par un toast si c'est le cas
-                        Toast.makeText(getApplicationContext(), "Accès à vos contacts", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Accès à vos contacts", Toast.LENGTH_SHORT).show();
                         break;
 
                     // Item "Mes informations" clicked
@@ -85,7 +85,7 @@ public class MainActivity extends Activity{
                         Intent intentInformation = new Intent(getBaseContext(), InformationActivity.class);
                         startActivity(intentInformation);
                         // avertis l'utilisateur par un toast si c'est le cas
-                        Toast.makeText(getApplicationContext(), "Accès à vos informations", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Accès à vos informations", Toast.LENGTH_SHORT).show();
                         break;
                     // Item "Mes informations" clické
                     case 3:

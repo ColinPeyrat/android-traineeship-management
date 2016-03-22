@@ -193,13 +193,6 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 .append(smonth).append("-").append(sday));
     }
 
-    @Override
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_contact, menu);
-        return true;
-    }
 
     @Override
     /**

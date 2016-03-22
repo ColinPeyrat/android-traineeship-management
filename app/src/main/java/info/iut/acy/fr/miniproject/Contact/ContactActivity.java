@@ -164,9 +164,13 @@ public class ContactActivity extends Activity implements View.OnClickListener {
 
                 if(Sort == "ASC"){
                     Sort = "DESC";
+                    //met un drawableleft
+                    btnRefresh.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_date, 0, 0, 0);
+
                 }
                 else if(Sort == "DESC"){
                     Sort = "ASC";
+                    btnRefresh.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_name, 0, 0, 0);
                 }
 
                 if(companySpinner.getSelectedItemPosition() == 0)
