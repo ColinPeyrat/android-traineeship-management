@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 public class ContactActivity extends Activity implements View.OnClickListener {
 
+    // Définition des éléments du layout
     private HashMap<String,Long> companys;
     private Spinner companySpinner;
     private ListView lvContact;
@@ -28,7 +29,7 @@ public class ContactActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_contact);
-
+        // Binding des éléments de la vue
         Button btnAdd = (Button)findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
 
@@ -38,6 +39,13 @@ public class ContactActivity extends Activity implements View.OnClickListener {
         companySpinner = (Spinner)findViewById(R.id.SpinnerCompany);
         companySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
+            /**
+             * Métode OnItemSelect qui réagit en fonction de l'item qui a été selectionné
+             *
+             * @param View  La vue de l Adapter qui a été cliquée
+             * @param position La position de la vue dans l'adapter
+             * @param id: L'Id de l'item cliqué
+             */
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("OnItemSelected",String.valueOf(id));
                 Log.i("OnItemSelected",parent.getSelectedItem().toString());
@@ -54,6 +62,9 @@ public class ContactActivity extends Activity implements View.OnClickListener {
             }
 
             @Override
+            /**
+             * Métode utilisé quand aucun élément n'est sélectionné
+             */
             public void onNothingSelected(AdapterView<?> parent) {
                 populate();
             }
@@ -71,13 +82,8 @@ public class ContactActivity extends Activity implements View.OnClickListener {
         ContactDB.open();
         CompanyDB.open();
 
-        // Rafra�chis la ListView
+        // Rafraichis la ListView
         populate();
-
-        if(Sort == "ASC")
-            btnRefresh.setText("Descendant");
-        else if(Sort == "DESC")
-            btnRefresh.setText("Ascendant");
 
         Cursor company = CompanyDB.getAllCompany();
 
@@ -124,11 +130,9 @@ public class ContactActivity extends Activity implements View.OnClickListener {
                 Log.i("btnRefresh",Sort);
 
                 if(Sort == "ASC"){
-                    btnRefresh.setText("Ascendant");
                     Sort = "DESC";
                 }
                 else if(Sort == "DESC"){
-                    btnRefresh.setText("Descendant");
                     Sort = "ASC";
                 }
 

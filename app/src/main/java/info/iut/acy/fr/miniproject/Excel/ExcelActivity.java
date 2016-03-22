@@ -125,7 +125,6 @@ public class ExcelActivity extends Activity
             outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
-            /* proper exception handling to be here */
             Log.i("Excel", e.toString());
             Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
         }
