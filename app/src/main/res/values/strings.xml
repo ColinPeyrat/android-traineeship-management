@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Gestion de stage</string>
     <string name="action_settings">Settings</string>
+    <string name="action_edit">Modifier</string>
     <string name="hello">Ceci est une application de génie</string>
     <string name="titre_menu">titre_menu</string>
     <string name="image_view">des gens</string>
@@ -13,4 +14,5 @@
     <string name="title_activity_company_details">Détails de l\'offre de stage</string>
     <string name="unregistered">Non renseigné(e)</string>
     <string name="title_activity_add_contact">Ajouter un contact</string>
+    <string name="title_activity_edit_company">Modifier une offre de stage</string>
 </resources>

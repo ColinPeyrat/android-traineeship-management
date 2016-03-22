@@ -12,6 +12,7 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,14 +27,17 @@ public class CompanyDetailsActivity extends Activity {
 
     TraineeshipAdapter TraineeshipDB;
 
+    Long idCompany = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_details);
 
         TraineeshipDB = new TraineeshipAdapter(getApplicationContext());
-
         TraineeshipDB.open();
+
 
         if(TraineeshipDB.isOneTraineeshipAlreadyAccepted()){
             Log.d("CompanyDetails","Une offre déja accepté");
@@ -57,7 +61,6 @@ public class CompanyDetailsActivity extends Activity {
 
         final Button btnAccepted = (Button)findViewById(R.id.btnAccepted);
 
-        Long idCompany = null;
         Bundle extras = getIntent().getExtras();
         // recupère l'id de l'entreprise sur laquelle on a cliqué
         if(extras != null) {
@@ -177,8 +180,30 @@ public class CompanyDetailsActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_company_details, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
+                //send to the details activity the id of the company clicked
+                intent.putExtra("idCompany", idCompany);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public SpannableString setStringUnderline(String string){
         SpannableString spanString = new SpannableString(string);
