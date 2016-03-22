@@ -75,6 +75,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Contact.ContactActivity" />
         </activity>
+        <receiver android:name=".Notification.NotificationPublisher" />
     </application>
 
 </manifest>

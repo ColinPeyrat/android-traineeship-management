@@ -1,26 +1,19 @@
 package info.iut.acy.fr.miniproject.Contact;
 
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.*;
-
-import info.iut.acy.fr.miniproject.Company.CompanyActivity;
 import info.iut.acy.fr.miniproject.Company.CompanyDetailsActivity;
 import info.iut.acy.fr.miniproject.Database.ContactAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
+import info.iut.acy.fr.miniproject.Notification.NotificationPublisher;
 import info.iut.acy.fr.miniproject.R;
 
 import java.util.ArrayList;
@@ -219,7 +212,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                     Toast.makeText(getApplicationContext(), "Contact ajouté", Toast.LENGTH_LONG).show();
                     ContactDB.insertContact(companyID, contactMeans, contactDescription, contactDate);
                     // Notification pour relancer l'entreprise après 15 jours
-                    this.createNotification(companyID,"Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName);
+                    this.scheduleNotification(getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue()),companyID.intValue());
                     finish();
                 }
                 break;
@@ -228,18 +221,26 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private final void createNotification(Long idCompany,String notificationTitle,String notificationDesc){
-        //Récupération du notification Manager
-        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+    private void scheduleNotification(Notification notification, int id) {
 
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Définition de la date de notification
+        final Calendar datenotification = Calendar.getInstance();
+        datenotification.add(Calendar.SECOND,10);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
+    }
+
+    private Notification getNotification(String notificationTitle, String notificationDesc, int idCompany) {
         //Définition de la redirection au moment du clic sur la notification. Dans notre cas la notification redirige vers notre application
         final Intent intent = new Intent(this, CompanyDetailsActivity.class);
         intent.putExtra("idCompany", idCompany);
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        //Définition de la date de notification
-        final Calendar datenotification = Calendar.getInstance();
-        datenotification.add(Calendar.DATE,14);
 
         //Création de la notification avec spécification de l'icône de la notification et le texte qui apparait à la création de la notification
         final Notification notification = new Notification.Builder(getBaseContext())
@@ -247,7 +248,6 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 .setContentText(notificationDesc)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
-                .setWhen(datenotification.getTimeInMillis())
                 .setVibrate(new long[]{0, 200, 100, 200, 100, 200})
                 .setDefaults(Notification.DEFAULT_SOUND |
                         Notification.DEFAULT_VIBRATE)
@@ -256,17 +256,6 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                                 RingtoneManager.TYPE_NOTIFICATION))
                 .setColor(Color.BLUE)
                 .build();
-
-        notificationManager.notify(idCompany.intValue(), notification);
-    }
-    /**
-     * Métode pour supprimer une notification
-     *
-     * @param idCompany id de l'entreprise
-     */
-    private void deleteNotification(Integer idCompany){
-        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        //la suppression de la notification se fait grâce à son ID
-        notificationManager.cancel(idCompany);
+        return notification;
     }
 }
