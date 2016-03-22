@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import info.iut.acy.fr.miniproject.Database.DBAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.R;
 
@@ -33,6 +35,14 @@ public class CompanyDetailsActivity extends Activity {
 
         TraineeshipDB.open();
 
+        if(TraineeshipDB.isOneTraineeshipAlreadyAccepted()){
+            Log.d("CompanyDetails","Une offre déja accepté");
+
+        } else {
+            Log.d("CompanyDetails","Aucune offre encore accepté");
+
+        }
+
         TextView tvName = (TextView)findViewById(R.id.tvName);
         TextView tvAdress = (TextView)findViewById(R.id.tvAdress);
         TextView tvCp = (TextView)findViewById(R.id.tvCp);
@@ -45,12 +55,17 @@ public class CompanyDetailsActivity extends Activity {
         TextView tvSize = (TextView)findViewById(R.id.tvSize);
         TextView tvDescription = (TextView)findViewById(R.id.tvDescription);
 
+        final Button btnAccepted = (Button)findViewById(R.id.btnAccepted);
+
         Long idCompany = null;
         Bundle extras = getIntent().getExtras();
+        // recupère l'id de l'entreprise sur laquelle on a cliqué
         if(extras != null) {
             idCompany = extras.getLong("idCompany");
         }
+
         Cursor company = TraineeshipDB.getSingleCompany(idCompany);
+
         if(company.getCount() > 0){
             company.moveToFirst();
 
@@ -69,8 +84,9 @@ public class CompanyDetailsActivity extends Activity {
             tvCountry.setText(company.getString(company.getColumnIndex(TraineeshipDB.KEY_COUNTRY)));
 
 
-            if(serviceCursor.length() > 0)
+            if(serviceCursor.length() > 0) {
                 tvService.setText(serviceCursor);
+            }
 
             if(mailCursor.length() > 0){
                 tvMail.setText(setStringUnderline(mailCursor));
@@ -102,20 +118,57 @@ public class CompanyDetailsActivity extends Activity {
                 });
             }
 
-            if(websiteCursor.length() > 0)
+            if(websiteCursor.length() > 0) {
                 tvWebsite.setText(websiteCursor);
+            }
 
-            if(sizeCursor.length() > 0)
+            if(sizeCursor.length() > 0) {
                 tvSize.setText(sizeCursor);
+            }
 
-            if(descriptionCursor.length() > 0)
+            if(descriptionCursor.length() > 0) {
                 tvDescription.setText(descriptionCursor);
+            }
 
 
         } else {
             finish();
             Toast.makeText(getApplicationContext(), "Impossible de récuperer l'entreprise", Toast.LENGTH_SHORT).show();
         }
+
+        final Long finalIdCompany = idCompany;
+        btnAccepted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TraineeshipDB.isOneTraineeshipAlreadyAccepted()){
+                    Cursor oldTraineeshipAccepted = TraineeshipDB.getTraineeshipAccepted();
+                    if(oldTraineeshipAccepted.getCount() > 0) {
+                        oldTraineeshipAccepted.moveToFirst();
+
+                        int idOldTraineeshipAccepted = oldTraineeshipAccepted.getInt(oldTraineeshipAccepted.getColumnIndexOrThrow(TraineeshipDB.KEY_ID));
+                        String nameOldTraineeshipAccepted = oldTraineeshipAccepted.getString(oldTraineeshipAccepted.getColumnIndexOrThrow(TraineeshipDB.KEY_NAME));
+
+
+                        //si cette offre est déja l'offre de stage validé
+                        if(finalIdCompany == idOldTraineeshipAccepted){
+
+                            Toast.makeText(getApplicationContext(), "Cette offre de stage a déja été validé", Toast.LENGTH_SHORT).show();
+
+                        // sinon
+                        } else{
+                            Toast.makeText(getApplicationContext(), "L'ancienne offre de stage validé de " +nameOldTraineeshipAccepted+ " a été remplacée par celle ci", Toast.LENGTH_SHORT).show();
+                        }
+
+                        TraineeshipDB.setTraineeshipAccepted(idOldTraineeshipAccepted, 1);
+                        TraineeshipDB.setTraineeshipAccepted(finalIdCompany,0);
+                    }
+
+                } else {
+                    TraineeshipDB.setTraineeshipAccepted(finalIdCompany,0);
+                }
+            }
+        });
+
 
 
     }
@@ -125,8 +178,9 @@ public class CompanyDetailsActivity extends Activity {
         super.onResume();
 
     }
-    public SpannableString setStringUnderline(String string){
 
+
+    public SpannableString setStringUnderline(String string){
         SpannableString spanString = new SpannableString(string);
         spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
         spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);

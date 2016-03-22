@@ -1,6 +1,8 @@
 package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -49,6 +51,36 @@ public class CompanyActivity extends Activity implements OnClickListener{
                 startActivity(intent);
             }
         });
+        lvCompany.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> adapter,
+                                           View v, int position, final long id) {
+                final AlertDialog.Builder b = new AlertDialog.Builder(CompanyActivity.this);
+                b.setIcon(android.R.drawable.ic_dialog_alert);
+                b.setMessage("Supprimer cette offre de stage ?");
+                b.setPositiveButton("Oui",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                Toast.makeText(getApplicationContext(), "Supprimé", Toast.LENGTH_LONG).show();
+
+                                // supprime la ligne dans la base de donnée correspondant a l'item dans la ListView
+                                TraineeshipDB.removeCompany(id);
+
+                                //rafraichis la liste view
+                                populate();
+                            }
+                        });
+                b.setNegativeButton("Non",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+                b.show();
+                return true;
+            }
+        });
 
 
 
@@ -81,7 +113,7 @@ public class CompanyActivity extends Activity implements OnClickListener{
 
     // alimentation de la liste par le contenu de la base de données
     private void populate(){
-        Cursor companyCursor = TraineeshipDB.getAllCompany();
+        Cursor companyCursor = TraineeshipDB.getAllCompanyOrderByAccepted();
         // Find ListView to populate
         ListView lvCompany = (ListView) findViewById(R.id.ListViewCompany);
         // Setup cursor adapter using cursor from last step

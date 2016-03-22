@@ -26,6 +26,7 @@ public class DBAdapter {
             TraineeshipAdapter.KEY_MAIL + " text not null, " +
             TraineeshipAdapter.KEY_WEBSITE + " text, " +
             TraineeshipAdapter.KEY_DESCRIPTION + " text, " +
+            TraineeshipAdapter.KEY_ACCEPTED + " integer, " +
             TraineeshipAdapter.KEY_SIZE + " text );";
 
     private static final String CREATE_TABLE_CONTACT = "create table " + ContactAdapter.NOM_TABLE_CONTACT +

@@ -4,10 +4,12 @@ import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.R;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -39,6 +41,7 @@ public class CompanyCursorAdapter extends CursorAdapter{
         TextView tvCity = (TextView) view.findViewById(R.id.TextViewCompanyCity);
         TextView tvPostal = (TextView) view.findViewById(R.id.TextViewCompanyPostal);
         TextView tvCountry = (TextView) view.findViewById(R.id.TextViewCompanyCountry);
+        ImageView ivChecked = (ImageView) view.findViewById(R.id.checked_icon);
 
         // Extract properties from cursor
         String name = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_NAME));
@@ -46,6 +49,12 @@ public class CompanyCursorAdapter extends CursorAdapter{
         String city = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_TOWN));
         String postal = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_POSTAL));
         String country = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_COUNTRY));
+        int accepted = cursor.getInt(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_ACCEPTED));
+        if(accepted == 0){
+            ivChecked.setImageResource(R.drawable.ic_checked);
+        } else {
+            ivChecked.setImageResource(0);
+        }
 
         // Populate fields with extracted properties
         tvName.setText(name);

@@ -4,6 +4,11 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="100dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:weightSum="1" >
 
     <LinearLayout android:id="@+id/LinearLayout01"
         android:layout_width="match_parent"
@@ -41,6 +46,7 @@
                 android:layout_weight="0.5"
                 android:gravity="left|center"
                 android:text="Code postal de l&apos;entreprise" />
+
         </LinearLayout>
         <TextView
             android:text="Pays de l&apos;entreprise"
@@ -48,5 +54,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="left" />
+    </LinearLayout>
+    <ImageView android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:id="@+id/checked_icon"
+        android:padding="10px"
+        android:layout_gravity="center_vertical" >
+    </ImageView>
     </LinearLayout>
 </LinearLayout>

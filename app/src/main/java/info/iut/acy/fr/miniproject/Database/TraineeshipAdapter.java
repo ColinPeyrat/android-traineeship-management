@@ -26,6 +26,7 @@ public class TraineeshipAdapter{
     public static final String KEY_WEBSITE = "website";
     public static final String KEY_SIZE= "size";
     public static final String KEY_DESCRIPTION= "description";
+    public static final String KEY_ACCEPTED= "accepted";
 
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -91,7 +92,12 @@ public class TraineeshipAdapter{
     public Cursor getAllCompany(){
         return mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
                 TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
-                TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, null, null, null, null, KEY_ID+" DESC");
+                TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION,TraineeshipAdapter.KEY_ACCEPTED}, null, null, null, null, KEY_ID+" DESC");
+    }
+    public Cursor getAllCompanyOrderByAccepted(){
+        return mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{ TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
+                TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
+                TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION,TraineeshipAdapter.KEY_ACCEPTED}, null, null, null, null, KEY_ACCEPTED+"," +KEY_ID+" DESC",null );
     }
     // insert a company
     public long insertCompany(String name, String address, String postal, String town, String country,String service, String phone, String mail, String website, String size,String description){
@@ -108,7 +114,12 @@ public class TraineeshipAdapter{
         newValue.put(TraineeshipDBHelper.KEY_WEBSITE,website);
         newValue.put(TraineeshipDBHelper.KEY_SIZE,size);
         newValue.put(TraineeshipDBHelper.KEY_DESCRIPTION,description);
+        newValue.put(TraineeshipAdapter.KEY_ACCEPTED,1);
         return mDb.insert(TraineeshipDBHelper.NOM_TABLE_COMPANY, null, newValue);
+    }
+    public boolean removeCompany(long ligneID){
+        Log.i("removeLine", "appelé");
+        return mDb.delete(TraineeshipAdapter.NOM_TABLE_COMPANY, TraineeshipAdapter.KEY_ID + " = " + ligneID, null)>0;
     }
 
     /**
@@ -120,9 +131,38 @@ public class TraineeshipAdapter{
     public Cursor getSingleCompany(long ligneID){
         Cursor reponse = mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
                         TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
-                        TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION}, TraineeshipAdapter.KEY_ID + " = " + ligneID, null, null,
+                        TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION,TraineeshipAdapter.KEY_ACCEPTED}, TraineeshipAdapter.KEY_ID + " = " + ligneID, null, null,
                 null, null);
         return reponse;
+    }
+
+    public boolean isOneTraineeshipAlreadyAccepted(){
+        boolean result = false;
+        Cursor allCompany = getAllCompany();
+        if (allCompany.moveToFirst()) {
+            do {
+                if(allCompany.getInt(allCompany.getColumnIndexOrThrow(TraineeshipAdapter.KEY_ACCEPTED))  == 0){
+                    result = true;
+                }
+
+            }
+            while (allCompany.moveToNext());
+        }
+        return result;
+    }
+
+    public Cursor getTraineeshipAccepted(){
+        Cursor reponse = mDb.query(TraineeshipAdapter.NOM_TABLE_COMPANY, new String[]{TraineeshipDBHelper.KEY_ID,TraineeshipDBHelper.KEY_NAME,
+                        TraineeshipDBHelper.KEY_ADRESS,TraineeshipDBHelper.KEY_POSTAL,TraineeshipDBHelper.KEY_TOWN,TraineeshipDBHelper.KEY_COUNTRY,
+                        TraineeshipDBHelper.KEY_SERVICE,TraineeshipDBHelper.KEY_PHONE,TraineeshipDBHelper.KEY_MAIL,TraineeshipDBHelper.KEY_WEBSITE,TraineeshipDBHelper.KEY_SIZE,TraineeshipDBHelper.KEY_DESCRIPTION,TraineeshipAdapter.KEY_ACCEPTED}, TraineeshipAdapter.KEY_ACCEPTED + " =0", null, null,
+                null, null);
+        return reponse;
+    }
+
+    public void setTraineeshipAccepted(long ligneID,int valuesBoolean){
+        ContentValues values = new ContentValues();
+        values.put(TraineeshipAdapter.KEY_ACCEPTED, valuesBoolean);
+        mDb.update(TraineeshipAdapter.NOM_TABLE_COMPANY, values, KEY_ID + "=" + ligneID, null);
     }
 
    /* *//**
