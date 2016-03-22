@@ -39,6 +39,8 @@ public class ContactCursorAdapter extends CursorAdapter {
         String means = cursor.getString(cursor.getColumnIndexOrThrow(ContactAdapter.KEY_CONTACTMEANS));
         String descritpion = cursor.getString(cursor.getColumnIndexOrThrow(ContactAdapter.KEY_CONTACTDESCRIPTION));
         String date = cursor.getString(cursor.getColumnIndexOrThrow(ContactAdapter.KEY_CONTACTDATE));
+        String[] d = date.split("-");
+        date = d[2]+"/"+d[1]+"/"+d[0];
 
         // Populate fields with extracted properties
         tvcompany.setText(company);

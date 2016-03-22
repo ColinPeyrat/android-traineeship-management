@@ -4,11 +4,21 @@ package info.iut.acy.fr.miniproject.Contact;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
+
+import info.iut.acy.fr.miniproject.Company.CompanyActivity;
+import info.iut.acy.fr.miniproject.Company.CompanyDetailsActivity;
 import info.iut.acy.fr.miniproject.Database.ContactAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.R;
@@ -124,6 +134,9 @@ public class AddContactActivity extends Activity implements View.OnClickListener
             // arg2 = month
             // arg3 = day
             showDate(arg1, arg2+1, arg3);
+            calendar.set(Calendar.YEAR, arg1);
+            calendar.set(Calendar.MONTH,arg2);
+            calendar.set(Calendar.DAY_OF_MONTH,arg3);
         }
     };
 
@@ -170,21 +183,61 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         switch(v.getId()){
             case R.id.submitContact:
 
-                Long companyID = companys.get(contactCompanySpinner.getSelectedItem().toString());
+                String companyName = contactCompanySpinner.getSelectedItem().toString();
+                Long companyID = companys.get(companyName);
                 String contactMeans = contactMeansSpinner.getSelectedItem().toString();
                 String contactDescription = contactDesciptionEditText.getText().toString();
-                String contactDate = storeDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                String contactDate = storeDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
 
                 if(contactDescription.trim().equals(""))
                     contactDesciptionEditText.setError("La description est requise");
                 else{
                     Toast.makeText(getApplicationContext(), "Contact ajoutée", Toast.LENGTH_LONG).show();
-                    ContactDB.insertContact(companyID,contactMeans,contactDescription,contactDate);
+                    ContactDB.insertContact(companyID, contactMeans, contactDescription, contactDate);
+                    this.createNotification(companyID,"Recontacter l'entreprise "+companyName,"Cela fait 7 jours que vous n'avez pas contacter l'entreprise "+companyName);
                     finish();
                 }
                 break;
             case R.id.contact_date:
                 showDialog(999);
         }
+    }
+
+    private final void createNotification(Long idCompany,String notificationTitle,String notificationDesc){
+        //Récupération du notification Manager
+        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //Définition de la redirection au moment du clic sur la notification. Dans notre cas la notification redirige vers notre application
+        final Intent intent = new Intent(this, CompanyDetailsActivity.class);
+        intent.putExtra("idCompany", idCompany);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        //Définition de la date de notification
+        final Calendar datenotification = Calendar.getInstance();
+        datenotification.add(Calendar.DATE,14);
+
+        //Création de la notification avec spécification de l'icône de la notification et le texte qui apparait à la création de la notification
+        final Notification notification = new Notification.Builder(getBaseContext())
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationDesc)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(android.R.drawable.ic_notification_overlay)
+                .setWhen(datenotification.getTimeInMillis())
+                .setVibrate(new long[]{0, 200, 100, 200, 100, 200})
+                .setDefaults(Notification.DEFAULT_SOUND |
+                        Notification.DEFAULT_VIBRATE)
+                .setSound(
+                        RingtoneManager.getDefaultUri(
+                                RingtoneManager.TYPE_NOTIFICATION))
+                .setColor(Color.BLUE)
+                .build();
+
+        notificationManager.notify(idCompany.intValue(), notification);
+    }
+
+    private void deleteNotification(Integer idCompany){
+        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //la suppression de la notification se fait grâce à son ID
+        notificationManager.cancel(idCompany);
     }
 }
