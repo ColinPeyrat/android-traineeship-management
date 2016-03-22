@@ -1,6 +1,8 @@
 package info.iut.acy.fr.miniproject.Contact;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -74,6 +76,37 @@ public class ContactActivity extends Activity implements View.OnClickListener {
         CompanyDB = new TraineeshipAdapter(getApplicationContext());
 
         lvContact = (ListView) findViewById(R.id.ListViewContact);
+
+        lvContact.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> adapter,
+                                           View v, int position, final long id) {
+                final AlertDialog.Builder b = new AlertDialog.Builder(ContactActivity.this);
+                b.setIcon(android.R.drawable.ic_dialog_alert);
+                b.setMessage("Supprimer ce contact ?");
+                b.setPositiveButton("Oui",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                Toast.makeText(getApplicationContext(), "Supprimé", Toast.LENGTH_LONG).show();
+
+                                // supprime la ligne dans la base de donnée correspondant a l'item dans la ListView
+                                ContactDB.removeContact(id);
+
+                                //rafraichis la liste view
+                                populate();
+                            }
+                        });
+                b.setNegativeButton("Non",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+                b.show();
+                return true;
+            }
+        });
     }
 
     @Override

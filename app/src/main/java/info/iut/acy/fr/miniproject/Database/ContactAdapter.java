@@ -125,6 +125,10 @@ public class ContactAdapter {
 
         return mDb.insert(ContactAdapter.NOM_TABLE_CONTACT, null, newValue);
     }
+    public boolean removeContact(long ligneID){
+        Log.i("removeLine", "appelé");
+        return mDb.delete(ContactAdapter.NOM_TABLE_CONTACT, ContactAdapter.KEY_IDCONTACT + " = " + ligneID, null)>0;
+    }
 
 
 }
