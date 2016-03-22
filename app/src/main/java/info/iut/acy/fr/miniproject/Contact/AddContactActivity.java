@@ -204,32 +204,37 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 String contactDescription = contactDesciptionEditText.getText().toString();
                 String contactDate = storeDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
 
+                //Définition de la date de notification
+                Calendar datenotification = Calendar.getInstance();
+                datenotification.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                datenotification.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                datenotification.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+                datenotification.set(Calendar.HOUR, 8);
+                datenotification.set(Calendar.MINUTE, 0);
+                datenotification.set(Calendar.SECOND, 0);
+
+                Calendar datePlusDay = Calendar.getInstance();
+                datePlusDay.add(Calendar.DAY_OF_MONTH,1);
+
                 //  le champs description doit être remplis renvoie une erreur sinon
                 if(contactDescription.trim().equals(""))
                     contactDesciptionEditText.setError("La description est requise");
+                else if(datePlusDay.getTimeInMillis() < datenotification.getTimeInMillis()){
+                    contactDateEditText.setError("La date de contact ne peut pas dépasser la date de damain");
+                }
                 else{
                     // Affiche un toast pour confirmer l'ajout de contact
                     Toast.makeText(getApplicationContext(), "Contact ajouté", Toast.LENGTH_LONG).show();
                     ContactDB.insertContact(companyID, contactMeans, contactDescription, contactDate);
 
-                    //Définition de la date de notification
-                    Calendar datenotification = Calendar.getInstance();
-                    datenotification.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-                    datenotification.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-                    datenotification.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
-                    datenotification.set(Calendar.HOUR, 8);
-                    datenotification.set(Calendar.MINUTE, 0);
-                    datenotification.set(Calendar.SECOND, 0);
-
                     // Notification pour relancer l'entreprise après 15 jours
                     if(datenotification.getTimeInMillis() < System.currentTimeMillis()){
                         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        Notification notification = getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue());
-                        notificationManager.notify(companyID.intValue(),notification);
+                        notificationManager.notify(companyID.intValue(),getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID));
                     }
                     else
-                        this.scheduleNotification(getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue()),companyID.intValue(),datenotification);
+                        this.scheduleNotification(getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID),companyID,datenotification);
                     finish();
                 }
                 break;
@@ -238,16 +243,16 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private void scheduleNotification(Notification notification, int id, Calendar datenotification) {
+    private void scheduleNotification(Notification notification, Long id, Calendar datenotification) {
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id.intValue(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         datenotification.add(Calendar.DAY_OF_MONTH,14);
 
-        cancelAlarmIfExists(id,notificationIntent);
+        cancelAlarmIfExists(id.intValue(),notificationIntent);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, datenotification.getTimeInMillis(), pendingIntent);
@@ -263,7 +268,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private Notification getNotification(String notificationTitle, String notificationDesc, int idCompany) {
+    private Notification getNotification(String notificationTitle, String notificationDesc, Long idCompany) {
         //Définition de la redirection au moment du clic sur la notification. Dans notre cas la notification redirige vers notre application
         final Intent intent = new Intent(this, CompanyDetailsActivity.class);
         intent.putExtra("idCompany", idCompany);

@@ -1,7 +1,6 @@
 package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -18,8 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import info.iut.acy.fr.miniproject.Database.DBAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.R;
 
@@ -64,7 +61,10 @@ public class CompanyDetailsActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         // recupère l'id de l'entreprise sur laquelle on a cliqué
         if(extras != null) {
-            idCompany = extras.getLong("idCompany");
+            if(extras.get("idCompany") instanceof Long)
+                idCompany = extras.getLong("idCompany");
+            else if(extras.get("idCompany") instanceof Integer)
+                idCompany = Long.valueOf(extras.getInt("idCompany"));
         }
 
         Cursor company = TraineeshipDB.getSingleCompany(idCompany);
