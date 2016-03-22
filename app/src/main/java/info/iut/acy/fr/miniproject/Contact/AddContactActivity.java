@@ -226,15 +226,27 @@ public class AddContactActivity extends Activity implements View.OnClickListener
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Définition de la date de notification
         final Calendar datenotification = Calendar.getInstance();
         datenotification.add(Calendar.SECOND,10);
         //datenotification.add(Calendar.DAY_OF_MONTH,14);
 
+        cancelAlarmIfExists(id,notificationIntent);
+
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, datenotification.getTimeInMillis(), pendingIntent);
+    }
+
+    public void cancelAlarmIfExists(int requestCode,Intent intent){
+        try{
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent,0);
+            AlarmManager am=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            am.cancel(pendingIntent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private Notification getNotification(String notificationTitle, String notificationDesc, int idCompany) {
