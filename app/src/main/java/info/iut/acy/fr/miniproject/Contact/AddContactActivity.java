@@ -230,6 +230,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                     }
                     else
                         this.scheduleNotification(getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID.intValue()),companyID.intValue(),datenotification);
+                    finish();
                 }
                 break;
             case R.id.contact_date:
