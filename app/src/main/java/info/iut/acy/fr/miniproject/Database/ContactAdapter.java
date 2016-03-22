@@ -41,23 +41,18 @@ public class ContactAdapter {
     }
 
     /**
-     * Constructor - takes the context to allow the database to be
-     * opened/created
+     * constructeur prenant le contexte pour que la base de données soit ouverte / créée
+     * @param ctx Contexte pour que la base fonctionne
      *
-     * @param ctx
-     *            the Context within which to work
      */
     public ContactAdapter(Context ctx) {
         this.mCtx = ctx;
     }
 
     /**
-     * Open the cars database. If it cannot be opened, try to create a new
-     * instance of the database. If it cannot be created, throw an exception to
-     * signal the failure
+     * Ouvre la base, si elle ne peut être ouverte , essaye d'en créer une autre, si on ne peut en en créer une renvoi une erreur pour signaler le problème
+     * @throws SQLiteException Si la base ne peut être ni ouverte ni créée
      *
-     * @throws SQLiteException
-     *             if the database could be neither opened or created
      */
     public void open() throws SQLiteException{
         this.mDbHelper = new DatabaseHelper(this.mCtx);
@@ -78,7 +73,10 @@ public class ContactAdapter {
         this.mDbHelper.close();
     }
 
-    // select * (renvoie tous les �l�ments de la table)
+    /**
+     * select * (renvoie tous les éléments de la table)
+     * @param sort correspond à l'order by, c'est à dire comment on veut trier
+     */
     public Cursor getAllContact(String sort){
         return mDb.query(ContactAdapter.NOM_TABLE_CONTACT  +
                 " LEFT OUTER JOIN " + TraineeshipAdapter.NOM_TABLE_COMPANY + " ON " +
@@ -92,7 +90,11 @@ public class ContactAdapter {
                 }, null, null, null, null, ContactAdapter.KEY_CONTACTDATE+" "+sort);
     }
 
-    // select * (renvoie tous les �l�ments de la table)
+    /**
+     * select * (renvoie tous les éléments de la table en fonction de l'entreprise)
+     * @param company correspond à l'entreprise
+     * @param sort correspond à l'oderby, c'est à dire comment on veut trier
+     */
     public Cursor getContactByCompany(Long company, String sort){
         return mDb.query(ContactAdapter.NOM_TABLE_CONTACT  +
                         " LEFT OUTER JOIN " + TraineeshipAdapter.NOM_TABLE_COMPANY + " ON " +
@@ -105,7 +107,14 @@ public class ContactAdapter {
                         ContactAdapter.KEY_CONTACTDESCRIPTION
                 }, ContactAdapter.KEY_IDCOMPANY + " = " + company, null, null, null, ContactAdapter.KEY_CONTACTDATE+" "+sort);
     }
-
+    /**
+     * Insert into  ( ajoute des éléments à la table)
+     * @param idcompany id de l'entreprise
+     * @param means moyen pour contacter l'entreprise
+     * @param desciption description de l'enreprise
+     * @param date date de contact avec l'entreprise
+     * @return l'insert avec les valeurs rempli précédemment pour ajouté à la table 'Contact'
+     */
     public long insertContact(Long idcompany, String means, String desciption, String date){
         Log.i("insertContact", "appele");
         ContentValues newValue  = new ContentValues();

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class InformationAdapter {
 
-    // membres public permettant de dfinir les champs de la base
+    // membres public permettant de définir les champs de la base
     public static final String NOM_TABLE_INFORMATION = "information";
     public static final String KEY_NAME = "name";
     public static final String KEY_FIRSTNAME = "firstname";
@@ -40,23 +40,18 @@ public class InformationAdapter {
     }
 
     /**
-     * Constructor - takes the context to allow the database to be
-     * opened/created
+     * constructeur prenant le contexte pour que la base de données soit ouverte / créée
+     * @param ctx Contexte pour que la base fonctionne
      *
-     * @param ctx
-     *            the Context within which to work
      */
     public InformationAdapter(Context ctx) {
         this.mCtx = ctx;
     }
 
     /**
-     * Open the cars database. If it cannot be opened, try to create a new
-     * instance of the database. If it cannot be created, throw an exception to
-     * signal the failure
+     * Ouvre la base, si elle ne peut être ouverte , essaye d'en créer une autre, si on ne peut en en créer une renvoi une erreur pour signaler le problème
+     * @throws SQLiteException Si la base ne peut être ni ouverte ni créée
      *
-     * @throws SQLiteException
-     *             if the database could be neither opened or created
      */
     public void open() throws SQLiteException{
         this.mDbHelper = new DatabaseHelper(this.mCtx);
@@ -77,7 +72,13 @@ public class InformationAdapter {
         this.mDbHelper.close();
     }
 
-    // insert information
+    /**
+     * Insert into ( ajoute des éléments à la table)
+     * @param name nom de l'élève
+     * @param firstname prénom de l'élève
+     * @param email  email de l'élève
+     * @return l'insert avec les valeurs rempli précédemment pour ajouté à la table 'information'
+     */
     public long insertOrUpdateMyInformation(String name, String firstname, String email){
         Log.i("insertInformation", "appele");
         ContentValues newValue  = new ContentValues();
@@ -92,7 +93,11 @@ public class InformationAdapter {
         else
             return mDb.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
     }
-
+    /**
+     * Insert into ( ajoute des éléments à la table)
+     * @param email  email du professeur responsable
+     * @return l'insert avec les valeurs rempli précédemment pour ajouté à la table 'information'
+     */
     public long insertOrUpdateResponsable(String email){
         Log.i("insertInformation", "appele");
         ContentValues newValue  = new ContentValues();
@@ -106,7 +111,10 @@ public class InformationAdapter {
             return mDb.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
     }
 
-    // select * (renvoie tous les éléments de la table)
+    /**
+     * Effectue un select *
+     * @return les informations correspondant à tous les champs de la table 'Information'
+     */
     public Cursor getAllInformation(){
         return mDb.query(InformationDBHelper.NOM_TABLE_INFORMATION, new String[]{InformationDBHelper.KEY_NAME,InformationDBHelper.KEY_FIRSTNAME,InformationDBHelper.KEY_EMAIL,InformationDBHelper.KEY_EMAIL_RESPONSABLE}, null, null, null, null, null);
     }

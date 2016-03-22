@@ -35,23 +35,33 @@ public class ExcelActivity extends Activity
     }
 
     @Override
+    /**
+     * Appelé quand l'activité va intéragir avec l'utilisateur, ouvre la base de données
+     * Appel la fonction createOffreStage si les informations personnelles sont remplis, sinon renvoi vers cette vue
+     */
     protected void onResume() {
         super.onResume();
 
         InformationDB.open();
         Cursor info = InformationDB.getAllInformation();
         info.moveToFirst();
+        // vérifie que chaque champs de la table informations est rempli
         if(info.getCount() != 0 && info.getString(0).length() != 0 && info.getString(1).length() != 0 && info.getString(2).length() != 0 && info.getString(3).length() != 0){
             createOffreStage(info);
         }
+        // renvoie vers la vue ou on remplit ses informations
         else{
             Intent infointent = new Intent(getApplicationContext(), InformationActivity.class);
             startActivity(infointent);
             Toast.makeText(getApplicationContext(), "Veuillez remplir vos information", Toast.LENGTH_SHORT).show();
-            Log.i("Excel","redirect to myinformation");
+            Log.i("Excel", "redirect to myinformation");
         }
     }
-
+    /**
+     * Méthode de création d'une offre de stage, remplis automatiquement chaque champs de la feuille "offreStage.xlsx"
+     * @param info Curseur qui contient les infos de la table 'information'
+     * @throws IOException Si erreur lors de la création du fichier
+     */
     private void createOffreStage(Cursor info){
         AssetManager assetm = getAssets();
 
@@ -67,12 +77,12 @@ public class ExcelActivity extends Activity
 
         Row row = sheet.getRow(3);
 
-        //student block
+        //Bloc élève rempli avec le curseur
         row.getCell(0).setCellValue(info.getString(2)); //mail
         row.getCell(1).setCellValue(info.getString(0)); //nom
         row.getCell(2).setCellValue(info.getString(1)); //prenom
 
-        //company block
+        //bloc de l'entreprise rempli avec un curseur de la table entreprise
         row.getCell(3).setCellValue(""); //nom
         row.getCell(4).setCellValue(""); //adresse
         row.getCell(5).setCellValue(""); //cp
@@ -90,14 +100,14 @@ public class ExcelActivity extends Activity
         row.getCell(17).setCellValue(""); //competence info
         row.getCell(18).setCellValue(""); //activité
 
-        //tuteur block
+        // Bloc du tuteur
         row.getCell(19).setCellValue(""); //nom
         row.getCell(20).setCellValue(""); //prenom
         row.getCell(21).setCellValue(""); //fonction
         row.getCell(22).setCellValue(""); //mail
         row.getCell(23).setCellValue(""); //telephone
 
-        //stage block
+        //Bloc du stage
         row.getCell(24).setCellValue(""); //date debut
         row.getCell(25).setCellValue(""); //date fin
         row.getCell(26).setCellValue(""); //sujet
@@ -115,7 +125,6 @@ public class ExcelActivity extends Activity
             outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
-            /* proper exception handling to be here */
             Log.i("Excel", e.toString());
             Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
         }

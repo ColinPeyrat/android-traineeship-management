@@ -50,7 +50,7 @@ public class DBAdapter {
 
     /**
      * Constructor
-     * @param ctx
+     * @param ctx comme ContactAdapter
      */
     public DBAdapter(Context ctx)
     {
