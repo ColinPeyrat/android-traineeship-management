@@ -2,6 +2,7 @@ package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -17,12 +18,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import info.iut.acy.fr.miniproject.Database.InformationAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
+import info.iut.acy.fr.miniproject.Information.InformationActivity;
 import info.iut.acy.fr.miniproject.R;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class CompanyDetailsActivity extends Activity {
 
     TraineeshipAdapter TraineeshipDB;
+    InformationAdapter InformationDB;
 
     Long idCompany = null;
 
@@ -33,7 +45,9 @@ public class CompanyDetailsActivity extends Activity {
         setContentView(R.layout.activity_company_details);
 
         TraineeshipDB = new TraineeshipAdapter(getApplicationContext());
+        InformationDB = new InformationAdapter(getApplicationContext());
         TraineeshipDB.open();
+        InformationDB.open();
 
 
         if(TraineeshipDB.isOneTraineeshipAlreadyAccepted()){
@@ -169,17 +183,16 @@ public class CompanyDetailsActivity extends Activity {
                 } else {
                     TraineeshipDB.setTraineeshipAccepted(finalIdCompany,0);
                 }
+
+                generateExcel();
             }
         });
-
-
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
 
     }
 
@@ -210,5 +223,100 @@ public class CompanyDetailsActivity extends Activity {
         spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
         spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
         return spanString;
+    }
+
+    private void generateExcel(){
+        Cursor info = InformationDB.getAllInformation();
+        info.moveToFirst();
+
+        Cursor company = TraineeshipDB.getAllCompanyOrderByAccepted();
+        company.moveToFirst();
+        company = TraineeshipDB.getSingleCompany(company.getInt(company.getColumnIndexOrThrow(TraineeshipDB.KEY_ID)));
+        company.moveToFirst();
+
+        // vérifie que chaque champs de la table informations est rempli
+        if(info.getCount() != 0 && info.getString(0).length() != 0 && info.getString(1).length() != 0 && info.getString(2).length() != 0 && info.getString(3).length() != 0){
+            createOffreStage(info,company);
+        }
+        // renvoie vers la vue ou on remplit ses informations
+        else{
+            Intent infointent = new Intent(getApplicationContext(), InformationActivity.class);
+            startActivity(infointent);
+            Toast.makeText(getApplicationContext(), "Veuillez remplir vos information", Toast.LENGTH_SHORT).show();
+            Log.i("Excel", "redirect to myinformation");
+        }
+    }
+
+    /**
+     * Méthode de création d'une offre de stage, remplis automatiquement chaque champs de la feuille "offreStage.xlsx"
+     * @param info Curseur qui contient les infos de la table 'information'
+     * @throws IOException Si erreur lors de la création du fichier
+     */
+    private void createOffreStage(Cursor info, Cursor company){
+        AssetManager assetm = getAssets();
+
+        XSSFWorkbook workbook = null;
+        try {
+            workbook = new XSSFWorkbook(assetm.open("offreStage.xlsx"));
+        } catch (IOException e) {
+            Log.i("Excel","Can't create file");
+            Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
+        }
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        Row row = sheet.getRow(3);
+
+        //Bloc élève rempli avec le curseur
+        row.getCell(0).setCellValue(info.getString(info.getColumnIndexOrThrow(InformationDB.KEY_EMAIL))); //mail
+        row.getCell(1).setCellValue(info.getString(info.getColumnIndexOrThrow(InformationDB.KEY_NAME))); //nom
+        row.getCell(2).setCellValue(info.getString(info.getColumnIndexOrThrow(InformationDB.KEY_FIRSTNAME))); //prenom
+
+        //bloc de l'entreprise rempli avec un curseur de la table entreprise
+        row.getCell(3).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_NAME))); //nom
+        row.getCell(4).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_ADRESS))); //adresse
+        row.getCell(5).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_POSTAL))); //cp
+        row.getCell(6).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_TOWN))); //ville
+        row.getCell(7).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_COUNTRY))); //pays
+        row.getCell(8).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_SERVICE))); //nom du service
+        row.getCell(9).setCellValue(""); //adresse lieu de stage
+        row.getCell(10).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_PHONE))); //telephone
+        row.getCell(11).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_MAIL))); //mail
+        row.getCell(12).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_WEBSITE))); //site internet
+        row.getCell(13).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_SIZE))); //taille
+        row.getCell(14).setCellValue(""); //nom du representant
+        row.getCell(15).setCellValue(""); //prenom du representant
+        row.getCell(16).setCellValue(""); //fonction du representant
+        row.getCell(17).setCellValue(""); //competence info
+        row.getCell(18).setCellValue(""); //activité
+
+        // Bloc du tuteur
+        row.getCell(19).setCellValue(""); //nom
+        row.getCell(20).setCellValue(""); //prenom
+        row.getCell(21).setCellValue(""); //fonction
+        row.getCell(22).setCellValue(""); //mail
+        row.getCell(23).setCellValue(""); //telephone
+
+        //Bloc du stage
+        row.getCell(24).setCellValue(""); //date debut
+        row.getCell(25).setCellValue(""); //date fin
+        row.getCell(26).setCellValue(company.getString(company.getColumnIndexOrThrow(TraineeshipDB.KEY_DESCRIPTION))); //sujet
+        row.getCell(27).setCellValue(""); //competence à acquerir
+        row.getCell(28).setCellValue(""); //activite confiees
+        row.getCell(29).setCellValue(""); //origin offre
+
+        String outFileName = "offreStage.xlsx";
+        try {
+            Log.i("Excel","writing file " + outFileName);
+            File cacheDir = getCacheDir();
+            File outFile = new File(cacheDir, outFileName);
+            OutputStream outputStream = new FileOutputStream(outFile.getAbsolutePath());
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            Log.i("Excel", e.toString());
+            Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
+        }
     }
 }
