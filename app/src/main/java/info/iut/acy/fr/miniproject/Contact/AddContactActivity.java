@@ -221,7 +221,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 if(contactDescription.trim().equals(""))
                     contactDesciptionEditText.setError("La description est requise");
                 else if(datePlusDay.getTimeInMillis() < datenotification.getTimeInMillis()){
-                    contactDateEditText.setError("La date de contact ne peut pas dépasser la date de damain");
+                    contactDateEditText.setError("La date de contact ne peut pas dépasser la date de demain");
                 }
                 else{
                     // Affiche un toast pour confirmer l'ajout de contact
@@ -229,7 +229,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                     ContactDB.insertContact(companyID, contactMeans, contactDescription, contactDate);
 
                     // Notification pour relancer l'entreprise après 15 jours
-                    if(datenotification.getTimeInMillis() < System.currentTimeMillis()){
+                    if(datenotification.getTimeInMillis() <= System.currentTimeMillis()){
                         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
                         notificationManager.notify(companyID.intValue(),getNotification("Relancer l'entreprise "+companyName,"Cela fait 14 jours que vous n'avez pas contacté l'entreprise "+companyName, companyID));
