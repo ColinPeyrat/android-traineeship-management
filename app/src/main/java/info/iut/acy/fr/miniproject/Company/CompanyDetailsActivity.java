@@ -1,6 +1,8 @@
 package info.iut.acy.fr.miniproject.Company;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -16,8 +18,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import info.iut.acy.fr.miniproject.Database.ContactAdapter;
 import info.iut.acy.fr.miniproject.Database.InformationAdapter;
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
 import info.iut.acy.fr.miniproject.Information.InformationActivity;
@@ -185,7 +190,42 @@ public class CompanyDetailsActivity extends Activity {
                     TraineeshipDB.setTraineeshipAccepted(finalIdCompany,0);
                 }
 
-                generateExcel();
+                final File f =  generateExcel();
+
+                final Cursor infoMail = InformationDB.getAllInformation();
+                infoMail.moveToFirst();
+
+                CharSequence colors[] = new CharSequence[] {"Partager","Envoyer par mail au responsable"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(CompanyDetailsActivity.this);
+                builder.setTitle("Que faire de votre offre de stage...");
+                builder.setItems(colors, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch(which){
+                            case 0:
+                                break;
+                            case 1:
+                                Intent sendIntent = new Intent();
+                                sendIntent.setType("text/plain");
+                                sendIntent.setAction(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(f.getAbsolutePath()));
+                                startActivity(sendIntent);
+                                break;
+                            case 2:
+                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            emailIntent.setType("application/image");
+                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ infoMail.getString(infoMail.getColumnIndexOrThrow(InformationAdapter.KEY_EMAIL_RESPONSABLE))});
+                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Offre de stage");
+                            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(f.getAbsolutePath()));
+                            startActivity(Intent.createChooser(emailIntent, "Envoyer un mail..."));
+                            break;
+                        }
+
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -203,6 +243,7 @@ public class CompanyDetailsActivity extends Activity {
         inflater.inflate(R.menu.menu_company_details, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -226,9 +267,11 @@ public class CompanyDetailsActivity extends Activity {
         return spanString;
     }
 
-    private void generateExcel(){
+    private File generateExcel(){
         Cursor info = InformationDB.getAllInformation();
         info.moveToFirst();
+
+        File f = null;
 
         Cursor company = TraineeshipDB.getAllCompanyOrderByAccepted();
         company.moveToFirst();
@@ -237,7 +280,7 @@ public class CompanyDetailsActivity extends Activity {
 
         // vérifie que chaque champs de la table informations est rempli
         if(info.getCount() != 0 && info.getString(0).length() != 0 && info.getString(1).length() != 0 && info.getString(2).length() != 0 && info.getString(3).length() != 0){
-            createOffreStage(info,company);
+             f = createOffreStage(info,company);
         }
         // renvoie vers la vue ou on remplit ses informations
         else{
@@ -246,6 +289,7 @@ public class CompanyDetailsActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Veuillez remplir vos information", Toast.LENGTH_SHORT).show();
             Log.i("Excel", "redirect to myinformation");
         }
+        return f;
     }
 
     /**
@@ -253,7 +297,7 @@ public class CompanyDetailsActivity extends Activity {
      * @param info Curseur qui contient les infos de la table 'information'
      * @throws IOException Si erreur lors de la création du fichier
      */
-    private void createOffreStage(Cursor info, Cursor company){
+    private File createOffreStage(Cursor info, Cursor company){
         AssetManager assetm = getAssets();
 
         XSSFWorkbook workbook = null;
@@ -307,17 +351,23 @@ public class CompanyDetailsActivity extends Activity {
         row.getCell(29).setCellValue(""); //origin offre
 
         String outFileName = "offreStage.xlsx";
+
+        File outFile = null;
         try {
             Log.i("Excel","writing file " + outFileName);
             File cacheDir = getCacheDir();
-            File outFile = new File(cacheDir, outFileName);
+            outFile = new File(cacheDir, outFileName);
             OutputStream outputStream = new FileOutputStream(outFile.getAbsolutePath());
             workbook.write(outputStream);
             outputStream.flush();
             outputStream.close();
+
         } catch (Exception e) {
             Log.i("Excel", e.toString());
             Toast.makeText(getApplicationContext(), "Erreur lors de la création du fichier", Toast.LENGTH_SHORT).show();
         }
+        return outFile;
+
+
     }
 }

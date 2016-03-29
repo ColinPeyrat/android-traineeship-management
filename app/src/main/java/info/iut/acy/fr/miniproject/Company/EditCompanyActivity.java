@@ -145,12 +145,11 @@ public class EditCompanyActivity extends Activity implements OnClickListener{
                     companyPhoneEditText.setError(null);
                     companyMailEditText.setError("Email invalide");
                 }else{
-                    Toast.makeText(getApplicationContext(), "Entreprise modifié", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Offre de stage modifiée", Toast.LENGTH_LONG).show();
 
                     //Suppression des erreurs
                     companyPhoneEditText.setError(null);
                     companyMailEditText.setError(null);
-
                     TraineeshipDB.updateCompany(idCompany,companyName,companyAdress,companyPostal,companyCity,companyCountry,companyService,companyPhone,companyMail,companyWebsite,companySize,companyDescription);
                     finish();
                 }
