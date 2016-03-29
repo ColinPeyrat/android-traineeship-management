@@ -24,15 +24,13 @@ public class CompanyCursorAdapter extends CursorAdapter{
         super(context, c, 0);
     }
 
-    // The newView method is used to inflate a new view and return it,
-    // you don't bind any data to the view at this point.
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
        return LayoutInflater.from(context).inflate(R.layout.list_item_company, parent, false);
     }
 
-    // The bindView method is used to bind all data to a given view
-    // such as setting the text on a TextView.
+    // Bind les TextView
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // Find fields to populate in inflated template
@@ -43,7 +41,7 @@ public class CompanyCursorAdapter extends CursorAdapter{
         TextView tvCountry = (TextView) view.findViewById(R.id.TextViewCompanyCountry);
         ImageView ivChecked = (ImageView) view.findViewById(R.id.checked_icon);
 
-        // Extract properties from cursor
+        // Extraction des données de la base par le cursor
         String name = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_NAME));
         String adress = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_ADRESS));
         String city = cursor.getString(cursor.getColumnIndexOrThrow(TraineeshipAdapter.KEY_TOWN));
@@ -56,7 +54,7 @@ public class CompanyCursorAdapter extends CursorAdapter{
             ivChecked.setImageResource(0);
         }
 
-        // Populate fields with extracted properties
+        // Champs à populate
         tvName.setText(name);
         tvAdress.setText(adress);
         tvCity.setText(city);

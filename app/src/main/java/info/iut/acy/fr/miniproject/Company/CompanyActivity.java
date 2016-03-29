@@ -37,7 +37,13 @@ public class CompanyActivity extends Activity implements OnClickListener{
 
         ListView lvCompany = (ListView) findViewById(R.id.ListViewCompany);
 
-
+        /**
+         * Métode OnClick qui réagit en fonction de l'item du menu qui a été cliqué
+         *
+         * @param View  La vue de l Adapter qui a été cliquée
+         * @param position La position de la vue dans l'adapter
+         * @param id: L'Id de l'item cliqué
+         */
         lvCompany.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a,
@@ -46,7 +52,7 @@ public class CompanyActivity extends Activity implements OnClickListener{
                 Long idCompany = id;
                 Intent intent = new Intent(v.getContext(), CompanyDetailsActivity.class);
 
-                //send to the details activity the id of the company clicked
+                //Envoi l'id de l'entreprise qui a été cliqué
                 intent.putExtra("idCompany", idCompany);
                 startActivity(intent);
             }
@@ -114,11 +120,11 @@ public class CompanyActivity extends Activity implements OnClickListener{
     // alimentation de la liste par le contenu de la base de données
     private void populate(){
         Cursor companyCursor = TraineeshipDB.getAllCompanyOrderByAccepted();
-        // Find ListView to populate
+        // Trouve la ListView pour populate
         ListView lvCompany = (ListView) findViewById(R.id.ListViewCompany);
-        // Setup cursor adapter using cursor from last step
+        // Utilise le cursor précédemment crée pour
         CompanyCursorAdapter todoAdapter = new CompanyCursorAdapter(this, companyCursor);
-        // Attach cursor adapter to the ListView
+        // Attache le curseur de l'adapter à la ListView
         lvCompany.setAdapter(todoAdapter);
     }
 }

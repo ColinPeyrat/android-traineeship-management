@@ -16,7 +16,7 @@ public class EditCompanyActivity extends Activity {
         setContentView(R.layout.activity_edit_company);
 
         Bundle extras = getIntent().getExtras();
-        // recupère l'id de l'entreprise sur laquelle on a cliqué
+        // Récupère l'id de l'entreprise sur laquelle on a cliqué
         if(extras != null) {
             idCompany = extras.getLong("idCompany");
         }

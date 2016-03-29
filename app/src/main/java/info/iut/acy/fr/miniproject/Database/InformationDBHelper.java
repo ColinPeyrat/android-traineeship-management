@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class InformationDBHelper extends SQLiteOpenHelper {
 
-    // membres public permettant de dfinir les champs de la base
+    // membre public permettant de définir les champs de la base
     public static final String NOM_TABLE_INFORMATION = "information";
     public static final String KEY_NAME = "name";
     public static final String KEY_FIRSTNAME = "firstname";
@@ -37,7 +37,7 @@ public class InformationDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // destruction de la base et recreation
+        // destruction de la base et récreation
         db.execSQL("DROP TABLE IF EXISTS " + NOM_TABLE_INFORMATION);
         Log.i("InformationAdapter2", "Base mise a jour !!!");
         onCreate(db);

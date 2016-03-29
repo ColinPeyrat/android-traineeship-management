@@ -58,6 +58,7 @@ public class CompanyDetailsActivity extends Activity {
 
         }
 
+        // Binding des TextView
         TextView tvName = (TextView)findViewById(R.id.tvName);
         TextView tvAdress = (TextView)findViewById(R.id.tvAdress);
         TextView tvCp = (TextView)findViewById(R.id.tvCp);
@@ -85,7 +86,7 @@ public class CompanyDetailsActivity extends Activity {
 
         if(company.getCount() > 0){
             company.moveToFirst();
-
+            // Curseur récupérant les champs de la base
             final String companyCursor = company.getString(company.getColumnIndex(TraineeshipDB.KEY_NAME));
             String serviceCursor = company.getString(company.getColumnIndex(TraineeshipDB.KEY_SERVICE));
             final String mailCursor = company.getString(company.getColumnIndex(TraineeshipDB.KEY_MAIL));

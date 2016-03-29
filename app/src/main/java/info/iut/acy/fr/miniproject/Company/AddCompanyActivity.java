@@ -45,6 +45,7 @@ public class AddCompanyActivity extends Activity {
             @Override
             public void onClick(View v) {
 
+                // Binding des Edit text
                 companyNameEditText = (EditText)findViewById(R.id.EditTextName);
                 companyAdressEditText = (EditText)findViewById(R.id.EditTextAdresse);
                 companyPostalEditText = (EditText)findViewById(R.id.EditTextPostal);
@@ -69,6 +70,7 @@ public class AddCompanyActivity extends Activity {
                 String companySize = companySizeEditText.getText().toString();
                 String companyDescription = companyDescriptionEditText.getText().toString();
 
+                // Vérification que tous les champs sont renseignés
                 if( companyName.trim().equals("")) {
                     companyNameEditText.setError("Le nom de l'entreprise est requis");
 
@@ -86,7 +88,7 @@ public class AddCompanyActivity extends Activity {
                 } else if(companyCountry.trim().equals("")){
                     companyCountryEditText.setError("Le pays est obligatoire");
 
-                    // verify if less one of phone or mail is not empty
+                    // Vérifier qu'une forme de contact est bien rentré
                 } else if(companyPhone.trim().equals("")  && companyMail.trim().equals("")) {
                     companyPhoneEditText.setError("Vous devez renseigner au moins un champ de contact");
                     companyMailEditText.setError("Vous devez renseigner au moins un champ de contact");
@@ -100,7 +102,7 @@ public class AddCompanyActivity extends Activity {
                 }else{
                     Toast.makeText(getApplicationContext(), "Entreprise ajoutée", Toast.LENGTH_LONG).show();
 
-                    //remove all error
+                    //Suppression des erreurs
                     companyPhoneEditText.setError(null);
                     companyMailEditText.setError(null);
 
@@ -119,7 +121,11 @@ public class AddCompanyActivity extends Activity {
         TraineeshipDB.open();
 
     }
-    // validating email id
+    /**
+     * Méthode de validation que l'email est bien de la forme du EMAIL PATTERN
+     *
+     * @param email à validé
+     */
     private boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -129,14 +135,14 @@ public class AddCompanyActivity extends Activity {
         return matcher.matches();
     }
 
-    // validating postal
+    // Validation du Code postal
     private boolean isValidPostalCode(String postal) {
         String POSTAL_PATTERN = "^[0-9]{5,5}$";
         Pattern pattern = Pattern.compile(POSTAL_PATTERN);
         Matcher matcher = pattern.matcher(postal);
         return matcher.matches();
     }
-    //validating phone number
+    // Validation du Numero de Telephone
     private boolean isValidPhoneNumber(String phone) {
         String POSTAL_PATTERN = "^(\\d\\d){5}$";
         Pattern pattern = Pattern.compile(POSTAL_PATTERN);
