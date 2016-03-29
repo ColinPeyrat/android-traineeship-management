@@ -82,7 +82,7 @@
         <EditText
             android:id="@+id/EditTextPhone"
             android:layout_height="wrap_content"
-            android:hint="Numéro"
+            android:hint="Numéro de téléphone"
             android:inputType="phone|textPersonName"
             android:layout_width="fill_parent">
         </EditText>
