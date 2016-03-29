@@ -9,9 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import info.iut.acy.fr.miniproject.Database.DBAdapter;
+
 import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter;
-import info.iut.acy.fr.miniproject.Database.TraineeshipAdapter2;
 import info.iut.acy.fr.miniproject.R;
 
 

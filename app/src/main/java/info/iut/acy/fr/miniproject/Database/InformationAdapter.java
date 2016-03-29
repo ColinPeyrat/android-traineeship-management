@@ -82,16 +82,16 @@ public class InformationAdapter {
     public long insertOrUpdateMyInformation(String name, String firstname, String email){
         Log.i("insertInformation", "appele");
         ContentValues newValue  = new ContentValues();
-        newValue.put(InformationDBHelper.KEY_NAME,name);
-        newValue.put(InformationDBHelper.KEY_FIRSTNAME, firstname);
-        newValue.put(InformationDBHelper.KEY_EMAIL, email);
+        newValue.put(InformationAdapter.KEY_NAME,name);
+        newValue.put(InformationAdapter.KEY_FIRSTNAME, firstname);
+        newValue.put(InformationAdapter.KEY_EMAIL, email);
 
         Cursor value = getAllInformation();
 
         if(value.getCount() > 0)
-            return mDb.update(InformationDBHelper.NOM_TABLE_INFORMATION, newValue, null, null);
+            return mDb.update(InformationAdapter.NOM_TABLE_INFORMATION, newValue, null, null);
         else
-            return mDb.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
+            return mDb.insert(InformationAdapter.NOM_TABLE_INFORMATION, null, newValue);
     }
     /**
      * Insert into ( ajoute des éléments à la table)
@@ -101,14 +101,14 @@ public class InformationAdapter {
     public long insertOrUpdateResponsable(String email){
         Log.i("insertInformation", "appele");
         ContentValues newValue  = new ContentValues();
-        newValue.put(InformationDBHelper.KEY_EMAIL_RESPONSABLE, email);
+        newValue.put(InformationAdapter.KEY_EMAIL_RESPONSABLE, email);
 
         Cursor value = getAllInformation();
 
         if(value.getCount() > 0)
-            return mDb.update(InformationDBHelper.NOM_TABLE_INFORMATION, newValue, null, null);
+            return mDb.update(InformationAdapter.NOM_TABLE_INFORMATION, newValue, null, null);
         else
-            return mDb.insert(InformationDBHelper.NOM_TABLE_INFORMATION, null, newValue);
+            return mDb.insert(InformationAdapter.NOM_TABLE_INFORMATION, null, newValue);
     }
 
     /**
@@ -116,6 +116,6 @@ public class InformationAdapter {
      * @return les informations correspondant à tous les champs de la table 'Information'
      */
     public Cursor getAllInformation(){
-        return mDb.query(InformationDBHelper.NOM_TABLE_INFORMATION, new String[]{InformationDBHelper.KEY_NAME,InformationDBHelper.KEY_FIRSTNAME,InformationDBHelper.KEY_EMAIL,InformationDBHelper.KEY_EMAIL_RESPONSABLE}, null, null, null, null, null);
+        return mDb.query(InformationAdapter.NOM_TABLE_INFORMATION, new String[]{InformationAdapter.KEY_NAME,InformationAdapter.KEY_FIRSTNAME,InformationAdapter.KEY_EMAIL,InformationAdapter.KEY_EMAIL_RESPONSABLE}, null, null, null, null, null);
     }
 }
