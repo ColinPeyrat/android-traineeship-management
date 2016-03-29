@@ -220,7 +220,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 //  le champs description doit être remplis renvoie une erreur sinon
                 if(contactDescription.trim().equals(""))
                     contactDesciptionEditText.setError("La description est requise");
-                else if(datePlusDay.getTimeInMillis() < datenotification.getTimeInMillis()){
+                else if(datePlusDay.getTimeInMillis() < calendar.getTimeInMillis()){
                     contactDateEditText.setError("La date de contact ne peut pas dépasser la date de demain");
                 }
                 else{
