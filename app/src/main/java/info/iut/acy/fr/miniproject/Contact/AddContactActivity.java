@@ -212,6 +212,7 @@ public class AddContactActivity extends Activity implements View.OnClickListener
                 datenotification.set(Calendar.HOUR, 8);
                 datenotification.set(Calendar.MINUTE, 0);
                 datenotification.set(Calendar.SECOND, 0);
+                datenotification.add(Calendar.DAY_OF_MONTH, 14);
 
                 Calendar datePlusDay = Calendar.getInstance();
                 datePlusDay.add(Calendar.DAY_OF_MONTH,1);
