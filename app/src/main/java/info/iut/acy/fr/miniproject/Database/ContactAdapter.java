@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by peyratc on 02/03/2016.
- */
 public class ContactAdapter {
 
     public static final String NOM_TABLE_CONTACT= "contact";
