@@ -205,24 +205,21 @@ public class CompanyDetailsActivity extends Activity {
 
                         switch(which){
                             case 0:
-                                break;
-                            case 1:
                                 Intent sendIntent = new Intent();
-                                sendIntent.setType("text/plain");
                                 sendIntent.setAction(Intent.ACTION_SEND);
                                 sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(f.getAbsolutePath()));
+                                sendIntent.setType("text/plain");
                                 startActivity(sendIntent);
                                 break;
-                            case 2:
-                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            emailIntent.setType("application/image");
-                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ infoMail.getString(infoMail.getColumnIndexOrThrow(InformationAdapter.KEY_EMAIL_RESPONSABLE))});
-                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Offre de stage");
-                            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(f.getAbsolutePath()));
-                            startActivity(Intent.createChooser(emailIntent, "Envoyer un mail..."));
-                            break;
+                            case 1:
+                                Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                emailIntent.setType("message/rfc822");
+                                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { infoMail.getString(infoMail.getColumnIndexOrThrow(InformationAdapter.KEY_EMAIL_RESPONSABLE)) });
+                                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Offre de stage");
+                                emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(f.getAbsolutePath()));
+                                startActivity(Intent.createChooser(emailIntent, "Envoyer un mail..."));
+                                break;
                         }
-
                     }
                 });
                 builder.show();

@@ -45,14 +45,6 @@
                 android:value=".Main.MainActivity" />
         </activity>
         <activity
-            android:name=".Excel.ExcelActivity"
-            android:label="@string/title_activity_information"
-            android:parentActivityName=".Main.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main.MainActivity" />
-        </activity>
-        <activity
             android:name=".Company.CompanyDetailsActivity"
             android:label="@string/title_activity_company_details"
             android:parentActivityName=".Company.CompanyActivity">

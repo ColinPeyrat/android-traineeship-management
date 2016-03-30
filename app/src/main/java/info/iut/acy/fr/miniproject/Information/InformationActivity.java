@@ -88,6 +88,7 @@ public class InformationActivity extends Activity implements View.OnClickListene
                     Log.i("InformationActivity", "enregistrement des information");
                     // Toast informant l'utilisateur que tout s'est bien passé
                     Toast.makeText(getApplicationContext(), "Vos informations ont bien été mise à jour", Toast.LENGTH_LONG).show();
+                    finish();
 
                 }
                 break;

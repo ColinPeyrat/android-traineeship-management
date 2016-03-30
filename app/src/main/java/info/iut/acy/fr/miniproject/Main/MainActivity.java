@@ -9,12 +9,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
 import info.iut.acy.fr.miniproject.Company.CompanyActivity;
 import info.iut.acy.fr.miniproject.Contact.ContactActivity;
-import info.iut.acy.fr.miniproject.Database.ContactAdapter;
 import info.iut.acy.fr.miniproject.Database.DBAdapter;
-import info.iut.acy.fr.miniproject.Excel.ExcelActivity;
 import info.iut.acy.fr.miniproject.Information.InformationActivity;
 import info.iut.acy.fr.miniproject.R;
 
@@ -40,7 +38,6 @@ public class MainActivity extends Activity{
         menuItemList.add(fillHashMap("Mes offres de stage", String.valueOf((R.drawable.company))));
         menuItemList.add(fillHashMap("Mes contacts",String.valueOf(R.drawable.contact)));
         menuItemList.add(fillHashMap("Mes informations", String.valueOf(R.drawable.people)));
-        menuItemList.add(fillHashMap("test excel", String.valueOf(R.drawable.people)));
 
         // Création d'un SimpleAdapter qui met en correspondance les items présents dans la list avec ceux de la vue
         SimpleAdapter itemsAdapter = new SimpleAdapter(this.getBaseContext(), menuItemList, R.layout.main_menu_item,
@@ -87,16 +84,7 @@ public class MainActivity extends Activity{
                         // avertis l'utilisateur par un toast si c'est le cas
 //                        Toast.makeText(getApplicationContext(), "Accès à vos informations", Toast.LENGTH_SHORT).show();
                         break;
-                    // Item "Mes informations" clické
-                    case 3:
-                        Log.i("menu","testExcel");
-                        Intent intentexcel = new Intent(getBaseContext(), ExcelActivity.class);
-                        startActivity(intentexcel);
-                        // avertis l'utilisateur par un toast si c'est le cas
-                        Toast.makeText(getApplicationContext(), "test excel", Toast.LENGTH_SHORT).show();
-                        break;
                 }
-
 
                 }
         });
